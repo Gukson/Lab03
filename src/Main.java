@@ -1,16 +1,13 @@
-import view.CoreUI;
-import view.RegistrationGUI;
-
-import javax.swing.*;
-import javax.swing.border.EtchedBorder;
-import java.awt.*;
+import view.Engine;
 
 public class Main {
+    private static Engine engine;
     public static void main(String[] args) {
-        JPanel jPanel = new JPanel();
-        CoreUI coreUI = new CoreUI(jPanel);
-        coreUI.toggleRegister();
+        engine = new Engine();
+        engine.Engine();
+    }
 
-        coreUI.setVisible(true);
+    public static Engine getEngine() {
+        return engine;
     }
 }

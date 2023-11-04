@@ -2,6 +2,8 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class CoreUI extends JFrame {
 
@@ -29,8 +31,8 @@ public class CoreUI extends JFrame {
         this.replaceView(logingui.getContentPane());
     }
 
-    public void toggleRegister() {
-        RegistrationGUI gui = new RegistrationGUI();
+    public void toggleRegister(String string) {
+        RegistrationGUI gui = new RegistrationGUI(string);
         this.replaceView(gui.getRegisterPane());
     }
 
@@ -45,4 +47,5 @@ public class CoreUI extends JFrame {
     public void toggleClient() {
 
     }
+
 }

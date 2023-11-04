@@ -14,15 +14,9 @@ public class LoginGUI {
     private Boolean isHiden = true;
 
     public LoginGUI() {
-        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        setBounds(100, 100, 800, 450);
-//        contentPane = new JPanel();
-//        contentPane.setBackground(new Color(192, 192, 192));
-//        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-//
-//        setContentPane(contentPane);
         contentPane = new JPanel();
         contentPane.setLayout(null);
+        contentPane.setBackground(new Color(192, 192, 192));
 
         JLabel skiImage = new JLabel("");
         skiImage.setBounds(63, 78, 316, 279);
@@ -82,14 +76,20 @@ public class LoginGUI {
         passwordLabel.setBounds(485, 150, 61, 16);
         contentPane.add(passwordLabel);
 
-        JButton goToLoginButton = new JButton("Don't have an account? Sign up");
-        goToLoginButton.setFont(new Font("Lucida Grande", Font.PLAIN, 9));
-        goToLoginButton.setForeground(new Color(0, 0, 0));
-        goToLoginButton.setBounds(502, 202, 200, 20);
-        goToLoginButton.setContentAreaFilled(false);
-        goToLoginButton.setBorderPainted(false);
-        goToLoginButton.setFocusPainted(true);
-        contentPane.add(goToLoginButton);
+        JButton goToRegistrationButton = new JButton("Don't have an account? Sign up");
+        goToRegistrationButton.setFont(new Font("Lucida Grande", Font.PLAIN, 9));
+        goToRegistrationButton.setForeground(new Color(0, 0, 0));
+        goToRegistrationButton.setBounds(502, 202, 200, 20);
+        goToRegistrationButton.setContentAreaFilled(false);
+        goToRegistrationButton.setBorderPainted(false);
+        goToRegistrationButton.setFocusPainted(true);
+        goToRegistrationButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(LoginGUI.this.contentPane);
+                coreui.toggleRegister("");
+            }
+        });
+        contentPane.add(goToRegistrationButton);
 
         JButton loginButton = new JButton("Login");
         loginButton.setIcon(null);
