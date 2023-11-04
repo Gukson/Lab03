@@ -1,24 +1,17 @@
 package view;
 
+import javax.swing.*;
+import javax.swing.border.EtchedBorder;
 import java.awt.*;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.font.TextAttribute;
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.border.EtchedBorder;
-import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JPasswordField;
 
-public class RegistrationGUI extends JFrame {
+public class RegistrationGUI {
 
     private static final long serialVersionUID = 1L;
     private JPanel registerPane;
@@ -29,36 +22,17 @@ public class RegistrationGUI extends JFrame {
 
     private Boolean isHiden = true;
 
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    RegistrationGUI frame = new RegistrationGUI();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    /**
-     * Create the frame.
-     */
     public RegistrationGUI() {
-        setBackground(new Color(192, 192, 192));
-        setResizable(false);
-        setAutoRequestFocus(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 800, 450);
+//        setBackground(new Color(192, 192, 192));
+//        setResizable(false);
+//        setAutoRequestFocus(false);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setBounds(100, 100, 800, 450);
         registerPane = new JPanel();
         registerPane.setBackground(new Color(192, 192, 192));
         registerPane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 
-        setContentPane(registerPane);
+//        setContentPane(registerPane);
         registerPane.setLayout(null);
 
 
@@ -148,7 +122,6 @@ public class RegistrationGUI extends JFrame {
                     isHiden = true;
 
                 }
-
             }
         });
         showHidePass.setIcon(hideIcon);
@@ -166,7 +139,9 @@ public class RegistrationGUI extends JFrame {
         nicknameLabel.setBounds(485, 200, 80, 16);
         registerPane.add(nicknameLabel);
 
+    }
 
-
+    JPanel getRegisterPane() {
+        return this.registerPane;
     }
 }
