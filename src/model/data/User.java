@@ -56,6 +56,10 @@ public class User {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
+
+    public char[] getPassword() {
+        return password;
+    }
 }
 
 //interfejs entity

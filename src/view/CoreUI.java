@@ -1,6 +1,7 @@
 package view;
 
 import dao.UserDao;
+import service.login.Login;
 import service.registration.Registration;
 
 import javax.swing.*;
@@ -10,7 +11,6 @@ public class CoreUI extends JFrame {
 
     private JPanel jpanel;
     private UserDao userDao;
-
 
     public CoreUI(UserDao userDao) {
         this.userDao = userDao;
@@ -28,7 +28,7 @@ public class CoreUI extends JFrame {
     }
 
     public void toggleLogin(){
-        LoginGUI logingui = new LoginGUI();
+        LoginGUI logingui = new LoginGUI(new Login(this.userDao));
         this.replaceView(logingui.getContentPane());
     }
 
