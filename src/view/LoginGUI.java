@@ -86,7 +86,7 @@ public class LoginGUI {
         goToRegistrationButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(LoginGUI.this.contentPane);
-                coreui.toggleRegister("");
+                coreui.toggleRegister();
             }
         });
         contentPane.add(goToRegistrationButton);

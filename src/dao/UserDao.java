@@ -1,4 +1,4 @@
-package service;
+package dao;
 
 import model.data.User;
 
@@ -8,10 +8,10 @@ import java.util.Optional;
 
 public class UserDao implements Dao<User>{
 
-    private List<User> users =  new ArrayList<>();
+    private List<User> users;
 
-    public UserDao(List<User> users) {
-
+    public UserDao() {
+        this.users = new ArrayList<>();
     }
 
     @Override
@@ -26,7 +26,8 @@ public class UserDao implements Dao<User>{
 
     @Override
     public User create(User user) {
-        return null;
+        users.add(user);
+        return user;
     }
 
     @Override

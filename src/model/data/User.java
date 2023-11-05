@@ -8,7 +8,7 @@ public class User {
     private String role;
     private String nickname;
 
-    public User(String name, String surname, String status, String nickname, char[] password) {
+    public User(String name, String surname, String nickname, char[] password, String status) {
         this.name = name;
         this.surname = surname;
         this.status = status;

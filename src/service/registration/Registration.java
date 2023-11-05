@@ -1,25 +1,55 @@
 package service.registration;
 
+import exceptions.CreationException;
+import exceptions.ValidationException;
+import dao.UserDao;
 import model.data.User;
-import service.UserDao;
-import view.CoreUI;
-import view.Engine;
-import view.RegistrationGUI;
 
-import java.util.EmptyStackException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Registration {
 
-    public void register(String name, String surname, char[] password, String nickname, CoreUI coreUI){
+    private UserDao userDao;
 
-        if(name.length() == 0 || surname.length() == 0 || password.length == 0 || nickname.length() == 0){
-            coreUI.toggleRegister("All gapes schould be filled");
+    public Registration(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
+    public void register(String name, String surname, char[] password, String nickname){
+        validate(name, surname, password, nickname);
+
+        if(!isNicknameAvailable(nickname)){
+            throw new CreationException();
         }
 
-        coreUI.toggleLogin();
-
+        userDao.create(new User(name,surname,nickname,password,"notAccepted"));
 
     }
 
+    private boolean validate(String name, String surname, char[] password, String nickname) {
+        List<String> fieldsWithErrors = new ArrayList<>();
+        if (name.length() == 0) {
+            fieldsWithErrors.add("name");
+        } if (surname.length() == 0) {
+            fieldsWithErrors.add("surname");
+        }if(password.length == 0){
+            fieldsWithErrors.add("password");
+        }if(nickname.length() == 0){
+            fieldsWithErrors.add("nickname");
+        }
+        if (fieldsWithErrors.isEmpty()) {
+            return true;
+        }
+        throw new ValidationException(fieldsWithErrors);
+    }
+
+    private boolean isNicknameAvailable(String nickname){
+        for(User u : userDao.getUsers()){
+            if(u.getNickname().equals(nickname)){
+                return false;
+            }
+        }
+        return true;
+    }
 }

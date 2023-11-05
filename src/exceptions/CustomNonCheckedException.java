@@ -18,4 +18,8 @@ public class CustomNonCheckedException extends RuntimeException{
                 ", dataStorage=" + dataStorage +
                 '}';
     }
+
+    public String getLabelText() {
+        return this.message;
+    }
 }

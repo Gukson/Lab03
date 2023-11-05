@@ -1,5 +1,7 @@
 package view;
 
+import exceptions.CreationException;
+import exceptions.ValidationException;
 import service.registration.Registration;
 
 import javax.print.attribute.standard.MediaSize;
@@ -23,53 +25,62 @@ public class RegistrationGUI{
     private JPasswordField passwordField;
     private JTextField nicnameField;
     private JLabel errorLabel;
+    private Registration registration;
 
-    private Boolean isHiden = true;
-    public RegistrationGUI(String errorMessage) {
-        registerPane = new JPanel();
-        registerPane.setBackground(new Color(192, 192, 192));
-        registerPane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-        registerPane.setLayout(null);
+    private Boolean isHiden;
+    public RegistrationGUI(Registration registration) {
+        this.registration = registration;
+        this.registerPane = new JPanel();
+        this.registerPane.setBackground(new Color(192, 192, 192));
+        this.registerPane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+        this.registerPane.setLayout(null);
+        this.isHiden = true;
 
         JButton registerButton = new JButton("Register");
         registerButton.setIcon(null);
         registerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Registration register = new Registration();
-                CoreUI coreUI = (CoreUI) SwingUtilities.getWindowAncestor(RegistrationGUI.this.registerPane);
-                register.register(nameField.getText(), surnameField.getText(),passwordField.getPassword(), nicnameField.getText(), coreUI);
+                try {
+                    RegistrationGUI.this.registration.register(nameField.getText(), surnameField.getText(),passwordField.getPassword(), nicnameField.getText());
+                    CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(RegistrationGUI.this.registerPane);
+                    coreui.toggleLogin();
+                } catch (ValidationException e2) {
+                    RegistrationGUI.this.errorLabel.setText("Empty " + e2.toString());
+                } catch (CreationException e3) {
+                    RegistrationGUI.this.errorLabel.setText("Użytkownik o danym nickname już istnieje");
+                }
             }
         });
         registerButton.setBackground(new Color(255, 255, 255));
         registerButton.setBounds(540, 360, 120, 30);
-        registerPane.add(registerButton);
+        this.registerPane.add(registerButton);
 
         JLabel registerLabel = new JLabel("Registration");
         registerLabel.setFont(new Font("Myanmar MN", Font.BOLD, 37));
         registerLabel.setHorizontalAlignment(SwingConstants.CENTER);
         registerLabel.setBounds(480, 40, 240, 60);
-        registerPane.add(registerLabel);
+        this.registerPane.add(registerLabel);
 
         JLabel skiImage = new JLabel("");
         skiImage.setBounds(63, 78, 316, 279);
-        registerPane.add(skiImage);
+        this.registerPane.add(skiImage);
         skiImage.setVerticalAlignment(SwingConstants.TOP);
         skiImage.setIcon(new ImageIcon("./images/ski-3.png"));
 
-        nameField = new JTextField();
-        nameField.setBounds(480, 115, 240, 35);
-        registerPane.add(nameField);
-        nameField.setColumns(10);
+        this.nameField = new JTextField();
+        this.nameField.setBounds(480, 115, 240, 35);
+        this.registerPane.add(nameField);
+        this.nameField.setColumns(10);
 
-        surnameField = new JTextField();
-        surnameField.setColumns(10);
-        surnameField.setBounds(480, 165, 240, 35);
-        registerPane.add(surnameField);
+        this.surnameField = new JTextField();
+        this.surnameField.setColumns(10);
+        this.surnameField.setBounds(480, 165, 240, 35);
+        this.registerPane.add(this.surnameField);
 
         JComboBox<String[]> genderComboBox = new JComboBox();
         genderComboBox.setModel(new DefaultComboBoxModel(new String[] {"male", "female"}));
         genderComboBox.setBounds(480, 305, 120, 27);
-        registerPane.add(genderComboBox);
+        this.registerPane.add(genderComboBox);
 
         JButton goToLoginButton = new JButton("Already have an account? Log in");
         goToLoginButton.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
@@ -88,23 +99,23 @@ public class RegistrationGUI{
                 coreui.toggleLogin();
             }
         });
-        registerPane.add(goToLoginButton);
+        this.registerPane.add(goToLoginButton);
 
         JLabel nameLabel = new JLabel("First name");
         nameLabel.setBounds(485, 100, 75, 16);
-        registerPane.add(nameLabel);
+        this.registerPane.add(nameLabel);
 
         JLabel surnameLabel = new JLabel("Surname");
         surnameLabel.setBounds(485, 150, 61, 16);
-        registerPane.add(surnameLabel);
+        this.registerPane.add(surnameLabel);
 
         JLabel passwordLabel = new JLabel("Password");
         passwordLabel.setBounds(485, 250, 61, 16);
-        registerPane.add(passwordLabel);
+        this.registerPane.add(passwordLabel);
 
-        passwordField = new JPasswordField();
-        passwordField.setBounds(480, 265, 240, 35);
-        registerPane.add(passwordField);
+        this.passwordField = new JPasswordField();
+        this.passwordField.setBounds(480, 265, 240, 35);
+        this.registerPane.add(this.passwordField);
 
         ImageIcon hideIcon = new ImageIcon("./images/hide.png");
         ImageIcon showIcon = new ImageIcon("./images/eye.png");
@@ -133,34 +144,25 @@ public class RegistrationGUI{
         showHidePass.setContentAreaFilled(false);
         showHidePass.setBorderPainted(false);
         showHidePass.setFocusPainted(false);
-        registerPane.add(showHidePass);
+        this.registerPane.add(showHidePass);
 
-        nicnameField = new JTextField();
-        nicnameField.setBounds(480, 215, 240, 35);
-        registerPane.add(nicnameField);
+        this.nicnameField = new JTextField();
+        this.nicnameField.setBounds(480, 215, 240, 35);
+        this.registerPane.add(nicnameField);
 
         JLabel nicknameLabel = new JLabel("Nickname");
         nicknameLabel.setBounds(485, 200, 80, 16);
-        registerPane.add(nicknameLabel);
+        this.registerPane.add(nicknameLabel);
 
-        errorLabel = new JLabel(errorMessage);
-        //errorLabel.setEnabled(false);
-        errorLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 11));
-        errorLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        errorLabel.setForeground(new Color(255, 30, 0));
-        errorLabel.setBounds(480, 332, 240, 16);
-        registerPane.add(errorLabel);
+        this.errorLabel = new JLabel("");
+        this.errorLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 11));
+        this.errorLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        this.errorLabel.setForeground(new Color(255, 30, 0));
+        this.errorLabel.setBounds(480, 332, 240, 16);
+        this.registerPane.add(this.errorLabel);
     }
 
-    JPanel getRegisterPane() {
+    public JPanel getRegisterPane() {
         return this.registerPane;
-    }
-
-    public JLabel getErrorLabel() {
-        return errorLabel;
-    }
-
-    public void setErrorLabel(JLabel errorLabel) {
-        this.errorLabel = errorLabel;
     }
 }

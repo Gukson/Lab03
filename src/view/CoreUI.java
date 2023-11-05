@@ -1,23 +1,24 @@
 package view;
 
+import dao.UserDao;
+import service.registration.Registration;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class CoreUI extends JFrame {
 
     private JPanel jpanel;
+    private UserDao userDao;
 
-    public CoreUI(JPanel jPanel) {
-        this.jpanel = jPanel;
+
+    public CoreUI(UserDao userDao) {
+        this.userDao = userDao;
         setBackground(new Color(192, 192, 192));
         setResizable(false);
         setAutoRequestFocus(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 800, 450);
-
-        setContentPane(this.jpanel);
     }
 
     public void replaceView(JPanel jPanel) {
@@ -31,9 +32,10 @@ public class CoreUI extends JFrame {
         this.replaceView(logingui.getContentPane());
     }
 
-    public void toggleRegister(String string) {
-        RegistrationGUI gui = new RegistrationGUI(string);
-        this.replaceView(gui.getRegisterPane());
+    public void toggleRegister() {
+        RegistrationGUI gui = new RegistrationGUI(new Registration(this.userDao));
+        this.jpanel = gui.getRegisterPane();
+        this.replaceView(this.jpanel);
     }
 
     public void toggleManager() {
