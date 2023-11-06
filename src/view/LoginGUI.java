@@ -109,11 +109,14 @@ public class LoginGUI {
             public void actionPerformed(ActionEvent e) {
                 try{
                     LoginGUI.this.login.login(nicknameField.getText(), passwordField.getPassword());
+                    CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(LoginGUI.this.contentPane);
+                    coreui.toggleManager();
                 }catch (ValidationException e2){
                     errorLabel.setText("Empty " + e2.toString());
                 }catch (LoginException e3){
                     errorLabel.setText("Valid Nickname or Password");
-                }catch (StatusException e4){
+                }
+                catch (StatusException e4){
                     errorLabel.setText("Your account has not been verified yet");
                 }
             }

@@ -29,6 +29,7 @@ public class RegistrationGUI{
 
     private Boolean isHiden;
     public RegistrationGUI(Registration registration) {
+        
         this.registration = registration;
         this.registerPane = new JPanel();
         this.registerPane.setBackground(new Color(192, 192, 192));

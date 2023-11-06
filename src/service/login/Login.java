@@ -48,7 +48,8 @@ public class Login {
         if(!nicknameExist || !Arrays.equals(user.getPassword(), password)){
             throw new LoginException();
         }
-        if(!user.getStatus().equals("Accepted")){
+        //TODO add !
+        if(user.getStatus().equals("Accepted")){
             throw new StatusException();
         }
         return true;

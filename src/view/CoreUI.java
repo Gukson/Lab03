@@ -3,6 +3,7 @@ package view;
 import dao.UserDao;
 import service.login.Login;
 import service.registration.Registration;
+import view.managerpanel.UserManagerGUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,7 +40,9 @@ public class CoreUI extends JFrame {
     }
 
     public void toggleManager() {
-
+        UserManagerGUI gui = new UserManagerGUI(userDao.getUsers());
+        this.jpanel = gui.getContentPane();
+        this.replaceView(this.jpanel);
     }
 
     public void toggleEmployee() {
