@@ -1,27 +1,22 @@
 package view.managerpanel;
 
+import dao.AddRowA;
 import model.data.User;
 
-import java.awt.EventQueue;
+import java.awt.*;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JScrollPane;
-import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JButton;
-import javax.swing.ScrollPaneConstants;
 
 public class UserManagerGUI extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
 
+    private JPanel rowHolderPanel = new JPanel(new GridLayout(0, 1, 1, 1));
 
     public UserManagerGUI(List<User> users) {
 
@@ -68,19 +63,27 @@ public class UserManagerGUI extends JFrame {
         JButton storageManager = new JButton("users DB");
         panel.add(storageManager);
 
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setBounds(151, 89, 649, 333);
-        contentPane.add(scrollPane);
-
         JLabel lblNewLabel_1 = new JLabel("User DB");
         lblNewLabel_1.setBounds(414, 61, 61, 16);
         contentPane.add(lblNewLabel_1);
 
+        JPanel dataSection = new JPanel();
+        dataSection.setBorder(null);
+        dataSection.setBounds(151, 89, 649, 333);
+        contentPane.add(dataSection);
+
+        JPanel outerPanel = new JPanel(new BorderLayout());
+        dataSection.add(outerPanel);
+        outerPanel.add(rowHolderPanel, BorderLayout.PAGE_START);
+        JScrollPane scrollPane = new JScrollPane(outerPanel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        dataSection.setLayout(new BorderLayout());
+        dataSection.add(scrollPane, BorderLayout.CENTER);
+
+
         for(User u : users){
-            scrollPane.add(new JLabel(u.getName()));
-            System.out.println(u.getName());
-//            revalidate();
+            gereratePanels(u.getName(), u.getSurname());
         }
 
     }
@@ -89,4 +92,19 @@ public class UserManagerGUI extends JFrame {
     public JPanel getContentPane() {
         return contentPane;
     }
+
+    private void gereratePanels(String Name, String Surname){
+        JPanel panel = new JPanel();
+        panel.add(new JLabel(Name + " " + Surname));
+        panel.add(Box.createHorizontalStrut(25));
+        panel.add(new JButton("Bar"));
+        panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+
+        rowHolderPanel.add(panel);
+        rowHolderPanel.revalidate();
+        rowHolderPanel.repaint();
+    }
+
 }
+
+

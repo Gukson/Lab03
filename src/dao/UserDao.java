@@ -12,6 +12,8 @@ public class UserDao implements Dao<User>{
 
     public UserDao() {
         this.users = new ArrayList<>();
+        char[] password = new char[5];
+        users.add(new User("Anna","Maria","sedzia",password,"Status"));
     }
 
     @Override
