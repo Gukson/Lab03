@@ -16,9 +16,10 @@ public class Login {
         this.userDao = userDao;
     }
 
-    public void login(String nickname, char[] password){
+    public User login(String nickname, char[] password){
         validate(nickname, password);
-        checkData(nickname, password);
+        User user = checkData(nickname, password);
+        return user;
     }
 
     private boolean validate(String nickname, char[] password) {
@@ -36,7 +37,7 @@ public class Login {
         throw new ValidationException(fieldsWithErrors);
     }
 
-    private boolean checkData(String nickname, char[] password){
+    private User checkData(String nickname, char[] password){
         boolean nicknameExist = false;
         User user = null;
         for(User u: userDao.getUsers()){
@@ -48,10 +49,11 @@ public class Login {
         if(!nicknameExist || !Arrays.equals(user.getPassword(), password)){
             throw new LoginException();
         }
-        //TODO add !
-        if(user.getStatus().equals("Accepted")){
+        if(!user.getStatus().equals("Accepted")){
             throw new StatusException();
         }
-        return true;
+        return user;
     }
+
+
 }

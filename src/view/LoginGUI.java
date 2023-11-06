@@ -4,6 +4,7 @@ import exceptions.CreationException;
 import exceptions.LoginException;
 import exceptions.StatusException;
 import exceptions.ValidationException;
+import model.data.User;
 import service.login.Login;
 
 import javax.swing.*;
@@ -108,9 +109,22 @@ public class LoginGUI {
         this.loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try{
-                    LoginGUI.this.login.login(nicknameField.getText(), passwordField.getPassword());
+                    User user = LoginGUI.this.login.login(nicknameField.getText(), passwordField.getPassword());
                     CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(LoginGUI.this.contentPane);
-                    coreui.toggleManager();
+                    System.out.println(user.getRole());
+                    switch (user.getRole()) {
+                        case "Client" ->
+                            //go to client panel
+                                System.out.println("client");
+                        case "Employee" ->
+                            //go to employee panel
+                                System.out.println("employee");
+                        case "Manager" -> {
+                            System.out.println("Manager");
+                            coreui.toggleManager(user);
+                        }
+                    }
+
                 }catch (ValidationException e2){
                     errorLabel.setText("Empty " + e2.toString());
                 }catch (LoginException e3){

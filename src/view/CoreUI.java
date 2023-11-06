@@ -1,6 +1,7 @@
 package view;
 
 import dao.UserDao;
+import model.data.User;
 import service.login.Login;
 import service.registration.Registration;
 import view.managerpanel.UserManagerGUI;
@@ -39,8 +40,8 @@ public class CoreUI extends JFrame {
         this.replaceView(this.jpanel);
     }
 
-    public void toggleManager() {
-        UserManagerGUI gui = new UserManagerGUI(userDao.getUsers());
+    public void toggleManager(User user) {
+        UserManagerGUI gui = new UserManagerGUI(userDao.getUsers(), user);
         this.jpanel = gui.getContentPane();
         this.replaceView(this.jpanel);
     }

@@ -1,5 +1,7 @@
 package model.data;
 
+import java.util.Optional;
+
 public class User {
     private String name;
     private String surname;
@@ -13,6 +15,15 @@ public class User {
         this.surname = surname;
         this.status = status;
         this.role = "client";
+        this.nickname = nickname;
+        this.password = password;
+    }
+
+    public User(String name, String surname, String nickname, char[] password, String status, String role) {
+        this.name = name;
+        this.surname = surname;
+        this.status = status;
+        this.role = role;
         this.nickname = nickname;
         this.password = password;
     }
