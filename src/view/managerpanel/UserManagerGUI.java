@@ -1,14 +1,11 @@
 package view.managerpanel;
 
-import dao.AddRowA;
 import model.data.User;
 
 import java.awt.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserManagerGUI extends JFrame {
