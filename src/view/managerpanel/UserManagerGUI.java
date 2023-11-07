@@ -15,87 +15,103 @@ import java.util.List;
 public class UserManagerGUI extends JFrame {
 
     private static final long serialVersionUID = 1L;
-    private JPanel contentPane;
-
+    private JPanel contentPane, navBar, navigation, dataSection, outerPanel;
+    private JScrollPane scrollPane;
+    private JLabel NameSurname, role, logo, pageTitle;
+    private JButton storage, usersDb, logOutButton;
     private JPanel rowHolderPanel = new JPanel(new GridLayout(0, 1, 1, 1));
 
     public UserManagerGUI(List<User> users, User user) {
 
-        contentPane = new JPanel();
-        contentPane.setBackground(Color.LIGHT_GRAY);
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        this.contentPane = new JPanel();
+        this.contentPane.setBackground(Color.LIGHT_GRAY);
+        this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-        setContentPane(contentPane);
-        contentPane.setLayout(null);
+        setContentPane(this.contentPane);
+        this.contentPane.setLayout(null);
 
-        JPanel navBar = new JPanel();
-        navBar.setBorder(null);
-        navBar.setBackground(Color.GRAY);
-        navBar.setBounds(0, 0, 800, 45);
-        contentPane.add(navBar);
-        navBar.setLayout(null);
+        this.navBar = new JPanel();
+        this.navBar.setBorder(null);
+        this.navBar.setBackground(Color.GRAY);
+        this.navBar.setBounds(0, 0, 800, 45);
+        contentPane.add(this.navBar);
+        this.navBar.setLayout(null);
 
-        JLabel NameSurname = new JLabel(user.getName() + " " + user.getSurname());
-        NameSurname.setHorizontalAlignment(SwingConstants.RIGHT);
-        NameSurname.setBounds(604, 6, 175, 16);
-        navBar.add(NameSurname);
+        this.NameSurname = new JLabel(user.getName() + " " + user.getSurname());
+        this.NameSurname.setHorizontalAlignment(SwingConstants.RIGHT);
+        this.NameSurname.setBounds(604, 6, 175, 16);
+        navBar.add(this.NameSurname);
 
-        JLabel role = new JLabel(user.getRole());
-        role.setHorizontalAlignment(SwingConstants.CENTER);
-        role.setFont(new Font("Lucida Grande", Font.ITALIC, 10));
-        role.setBounds(707, 23, 61, 16);
-        navBar.add(role);
+        this.role = new JLabel(user.getRole());
+        this.role.setHorizontalAlignment(SwingConstants.CENTER);
+        this.role.setFont(new Font("Lucida Grande", Font.ITALIC, 10));
+        this.role.setBounds(707, 23, 61, 16);
+        navBar.add(this.role);
 
-        JLabel lblNewLabel = new JLabel("SKI RENT");
-        lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
-        lblNewLabel.setBounds(204, 6, 408, 33);
-        navBar.add(lblNewLabel);
+        this.logo = new JLabel("SKI RENT");
+        this.logo.setHorizontalAlignment(SwingConstants.CENTER);
+        this.logo.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
+        this.logo.setBounds(204, 6, 408, 33);
+        navBar.add(this.logo);
 
-        JPanel navigation = new JPanel();
-        navigation.setBorder(null);
-        navigation.setBackground(Color.GRAY);
-        navigation.setBounds(0, 46, 150, 376);
-        contentPane.add(navigation);
-        navigation.setLayout(null);
+        this.navigation = new JPanel();
+        this.navigation.setBorder(null);
+        this.navigation.setBackground(Color.GRAY);
+        this.navigation.setBounds(0, 46, 150, 376);
+        contentPane.add(this.navigation);
+        this.navigation.setLayout(null);
 
-        JButton userManager = new JButton("Storage");
-        userManager.setBounds(28, 64, 91, 29);
-        navigation.add(userManager);
+        this.storage = new JButton("Storage");
+        this.storage.setBounds(28, 64, 91, 29);
+        this.storage.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(UserManagerGUI.this.contentPane);
+                coreui.toggleStorageManager(user);
+            }
+        });
+        navigation.add(this.storage);
 
-        JButton storageManager = new JButton("users DB");
-        storageManager.setBounds(23, 23, 100, 29);
-        navigation.add(storageManager);
+        this.usersDb = new JButton("users DB");
+        this.usersDb.setBounds(23, 23, 100, 29);
+        this.usersDb.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(UserManagerGUI.this.contentPane);
+                coreui.toggleUserManager(user);
+            }
+        });
+        navigation.add(this.usersDb);
 
-        JButton logOutButton = new JButton("");
-        logOutButton.setBounds(112, 342, 32, 28);
-        logOutButton.setIcon(new ImageIcon("./images/logout.png"));
-        logOutButton.addActionListener(new ActionListener() {
+        this.logOutButton = new JButton("");
+        this.logOutButton.setBounds(112, 342, 32, 28);
+        this.logOutButton.setIcon(new ImageIcon("./images/logout.png"));
+        this.logOutButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(UserManagerGUI.this.contentPane);
                 coreui.toggleLogin();
             }
         });
-        navigation.add(logOutButton);
+        navigation.add(this.logOutButton);
 
 
-        JLabel lblNewLabel_1 = new JLabel("User DB");
-        lblNewLabel_1.setBounds(414, 61, 61, 16);
-        contentPane.add(lblNewLabel_1);
+        this.pageTitle = new JLabel("User DB");
+        this.pageTitle.setBounds(414, 61, 61, 16);
+        contentPane.add(this.pageTitle);
 
-        JPanel dataSection = new JPanel();
-        dataSection.setBorder(null);
-        dataSection.setBounds(151, 89, 649, 333);
-        contentPane.add(dataSection);
+        this.dataSection = new JPanel();
+        this.dataSection.setBorder(null);
+        this.dataSection.setBounds(151, 89, 649, 333);
+        contentPane.add(this.dataSection);
 
-        JPanel outerPanel = new JPanel(new BorderLayout());
-        dataSection.add(outerPanel);
-        outerPanel.add(rowHolderPanel, BorderLayout.PAGE_START);
-        JScrollPane scrollPane = new JScrollPane(outerPanel);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        this.outerPanel = new JPanel(new BorderLayout());
+        this.dataSection.add(this.outerPanel);
+        this.outerPanel.add(this.rowHolderPanel, BorderLayout.PAGE_START);
+        this.scrollPane = new JScrollPane(this.outerPanel);
+        this.scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-        dataSection.setLayout(new BorderLayout());
-        dataSection.add(scrollPane, BorderLayout.CENTER);
+        this.dataSection.setLayout(new BorderLayout());
+        this.dataSection.add(this.scrollPane, BorderLayout.CENTER);
 
 
         for(User u : users){
@@ -118,9 +134,9 @@ public class UserManagerGUI extends JFrame {
         }
         panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
 
-        rowHolderPanel.add(panel);
-        rowHolderPanel.revalidate();
-        rowHolderPanel.repaint();
+        this.rowHolderPanel.add(panel);
+        this.rowHolderPanel.revalidate();
+        this.rowHolderPanel.repaint();
     }
 
 }

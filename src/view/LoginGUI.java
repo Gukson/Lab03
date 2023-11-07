@@ -1,6 +1,5 @@
 package view;
 
-import exceptions.CreationException;
 import exceptions.LoginException;
 import exceptions.StatusException;
 import exceptions.ValidationException;
@@ -121,7 +120,7 @@ public class LoginGUI {
                                 System.out.println("employee");
                         case "Manager" -> {
                             System.out.println("Manager");
-                            coreui.toggleManager(user);
+                            coreui.toggleUserManager(user);
                         }
                     }
 

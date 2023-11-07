@@ -1,42 +1,42 @@
 package dao;
 
-import model.data.Good;
+import model.data.Ski;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class StorageDao implements Dao<Good>{
+public class StorageDao implements Dao<Ski>{
 
-    private List<Good> goods;
+    private List<Ski> skis;
 
     public StorageDao() {
-        this.goods = new ArrayList<>();
+        this.skis = new ArrayList<>();
 
     }
 
     @Override
-    public Optional<Good> get(long id) {
+    public Optional<Ski> get(long id) {
         return Optional.empty();
     }
 
     @Override
-    public List<Good> getAll() {
+    public List<Ski> getAll() {
         return null;
     }
 
     @Override
-    public Good create(Good good) {
+    public Ski create(Ski ski) {
         return null;
     }
 
     @Override
-    public Good update(Good good, String[] params) {
+    public Ski update(Ski ski, String[] params) {
         return null;
     }
 
     @Override
-    public Good delete(Good good) {
+    public Ski delete(Ski ski) {
         return null;
     }
 }

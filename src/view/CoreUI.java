@@ -5,6 +5,7 @@ import dao.UserDao;
 import model.data.User;
 import service.login.Login;
 import service.registration.Registration;
+import view.managerpanel.StorageManagerGUI;
 import view.managerpanel.UserManagerGUI;
 
 import javax.swing.*;
@@ -14,9 +15,11 @@ public class CoreUI extends JFrame {
 
     private JPanel jpanel;
     private UserDao userDao;
+    private StorageDao storageDao;
 
     public CoreUI(UserDao userDao, StorageDao storageDao) {
         this.userDao = userDao;
+        this.storageDao = storageDao;
         setBackground(new Color(192, 192, 192));
         setResizable(false);
         setAutoRequestFocus(false);
@@ -41,8 +44,14 @@ public class CoreUI extends JFrame {
         this.replaceView(this.jpanel);
     }
 
-    public void toggleManager(User user) {
+    public void toggleUserManager(User user) {
         UserManagerGUI gui = new UserManagerGUI(userDao.getUsers(), user);
+        this.jpanel = gui.getContentPane();
+        this.replaceView(this.jpanel);
+    }
+
+    public void toggleStorageManager(User user){
+        StorageManagerGUI gui = new StorageManagerGUI(user, storageDao);
         this.jpanel = gui.getContentPane();
         this.replaceView(this.jpanel);
     }
@@ -54,5 +63,4 @@ public class CoreUI extends JFrame {
     public void toggleClient() {
 
     }
-
 }

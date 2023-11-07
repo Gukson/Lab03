@@ -8,6 +8,6 @@ public class Main {
         StorageDao storageDao = new StorageDao();
         CoreUI coreUI = new CoreUI(userDao, storageDao);
         coreUI.setVisible(true);
-        coreUI.toggleRegister();
+        coreUI.toggleLogin();
     }
 }
