@@ -115,7 +115,7 @@ public class UserManagerGUI extends JFrame {
 
 
         for(User u : users){
-            gereratePanels(u.getName(), u.getSurname(), u.getStatus());
+            gereratePanels(u.getName(), u.getSurname(), u.getStatus(), u, user);
         }
 
     }
@@ -125,12 +125,23 @@ public class UserManagerGUI extends JFrame {
         return contentPane;
     }
 
-    private void gereratePanels(String Name, String Surname, String status){
+    private void gereratePanels(String Name, String Surname, String status, User user, User loggedUser){
         JPanel panel = new JPanel();
+        JButton acceptButton = null;
         panel.add(new JLabel(Name + " " + Surname));
         panel.add(Box.createHorizontalStrut(25));
         if(status.equals("notAccepted")){
-            panel.add(new JButton("Accept user"));
+            panel.add(acceptButton = new JButton("Accept user"));
+            JButton finalAcceptButton1 = acceptButton;
+            acceptButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    user.setStatus("Accepted");
+                    panel.remove(finalAcceptButton1);
+                    CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(UserManagerGUI.this.contentPane);
+                    coreui.toggleUserManager(loggedUser);
+                }
+            });
         }
         panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
 
