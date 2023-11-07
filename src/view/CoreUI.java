@@ -1,5 +1,6 @@
 package view;
 
+import dao.StorageDao;
 import dao.UserDao;
 import model.data.User;
 import service.login.Login;
@@ -14,7 +15,7 @@ public class CoreUI extends JFrame {
     private JPanel jpanel;
     private UserDao userDao;
 
-    public CoreUI(UserDao userDao) {
+    public CoreUI(UserDao userDao, StorageDao storageDao) {
         this.userDao = userDao;
         setBackground(new Color(192, 192, 192));
         setResizable(false);

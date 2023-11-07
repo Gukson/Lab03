@@ -15,7 +15,6 @@ public class UserDao implements Dao<User>{
         char[] password = new char[1];
         password[0] = 'r';
 
-        users.add(new User("Anna","Maria","sedzia",password,"notAccepted"));
         users.add(new User("Admin","manager","Admin",password,"Accepted", "Manager"));
     }
 

@@ -35,7 +35,7 @@ public class LoginGUI {
         skiImage.setBounds(63, 78, 316, 279);
         this.contentPane.add(skiImage);
         skiImage.setVerticalAlignment(SwingConstants.TOP);
-        skiImage.setIcon(new ImageIcon("/Users/kuba/Downloads/ski-3.png"));
+        skiImage.setIcon(new ImageIcon("./images/ski-3.png"));
 
         this.loginLabel = new JLabel("Login");
         this.loginLabel.setFont(new Font("Myanmar MN", Font.BOLD, 37));
