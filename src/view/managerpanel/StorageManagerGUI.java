@@ -1,7 +1,8 @@
 package view.managerpanel;
 
-import dao.StorageDao;
+import model.data.Ski;
 import model.data.User;
+import service.addnewski.AddNewSki;
 import view.CoreUI;
 
 import javax.swing.*;
@@ -9,16 +10,17 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class StorageManagerGUI {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane, navBar, navigation, dataSection, outerPanel;
     private JPanel rowHolderPanel = new JPanel(new GridLayout(0, 1, 1, 1));
     private JLabel NameSurname, role, logo, pageTitle;
-    private JButton storage, usersDb,logOutButton;
+    private JButton storage, usersDb, logOutButton, addNewSkiButton;
     private JScrollPane scrollPane;
 
-    public StorageManagerGUI(User user, StorageDao storageDao){
+    public StorageManagerGUI(User loggedUser, List<Ski> skis, AddNewSki addNewSki){
         this.contentPane = new JPanel();
         this.contentPane.setBackground(Color.LIGHT_GRAY);
         this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -33,12 +35,12 @@ public class StorageManagerGUI {
         this.contentPane.add(this.navBar);
         this.navBar.setLayout(null);
 
-        this.NameSurname = new JLabel(user.getName() + " " + user.getSurname());
+        this.NameSurname = new JLabel(loggedUser.getName() + " " + loggedUser.getSurname());
         this.NameSurname.setHorizontalAlignment(SwingConstants.RIGHT);
         this.NameSurname.setBounds(604, 6, 175, 16);
         this.navBar.add(this.NameSurname);
 
-        this.role = new JLabel(user.getRole());
+        this.role = new JLabel(loggedUser.getRole());
         this.role.setHorizontalAlignment(SwingConstants.CENTER);
         this.role.setFont(new Font("Lucida Grande", Font.ITALIC, 10));
         this.role.setBounds(707, 23, 61, 16);
@@ -63,7 +65,7 @@ public class StorageManagerGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(StorageManagerGUI.this.contentPane);
-                coreui.toggleStorageManager(user);
+                coreui.toggleStorageManager(loggedUser);
             }
         });
         this.navigation.add(storage);
@@ -74,14 +76,17 @@ public class StorageManagerGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(StorageManagerGUI.this.contentPane);
-                coreui.toggleUserManager(user);
+                coreui.toggleUserManager(loggedUser);
             }
         });
         this.navigation.add(this.usersDb);
 
-        this.logOutButton = new JButton("");
+        this.logOutButton = new JButton();
         this.logOutButton.setBounds(112, 342, 32, 28);
         this.logOutButton.setIcon(new ImageIcon("./images/logout.png"));
+        this.logOutButton.setOpaque(false);
+        this.logOutButton.setContentAreaFilled(false);
+        this.logOutButton.setBorderPainted(false);
         this.logOutButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(StorageManagerGUI.this.contentPane);
@@ -89,6 +94,23 @@ public class StorageManagerGUI {
             }
         });
         this.navigation.add(this.logOutButton);
+
+        this.addNewSkiButton = new JButton();
+        this.addNewSkiButton.setBounds(112, 300, 32, 28);
+        this.addNewSkiButton.setIcon(new ImageIcon("./images/more.png"));
+        this.addNewSkiButton.setOpaque(false);
+        this.addNewSkiButton.setContentAreaFilled(false);
+        this.addNewSkiButton.setBorderPainted(false);
+        this.addNewSkiButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(StorageManagerGUI.this.contentPane);
+                AddNewSkisGUI frame = new AddNewSkisGUI(addNewSki,coreui,loggedUser);
+                frame.setVisible(true);
+            }
+        });
+
+        this.navigation.add(addNewSkiButton);
 
 
         this.pageTitle = new JLabel("Storage");
@@ -109,27 +131,32 @@ public class StorageManagerGUI {
         this.dataSection.setLayout(new BorderLayout());
         this.dataSection.add(scrollPane, BorderLayout.CENTER);
         
-//        for(User u : users){
-//            gereratePanels(u.getName(), u.getSurname(), u.getStatus());
-//        }
+        for(Ski s : skis){
+            generateSkiPanels(s, skis);
+        }
     }
 
     private void setContentPane(JPanel contentPane) {
     }
 
 
-    private void gereratePanels(String Name, String Surname, String status){
-//        JPanel panel = new JPanel();
-//        panel.add(new JLabel(Name + " " + Surname));
-//        panel.add(Box.createHorizontalStrut(25));
-//        if(status.equals("notAccepted")){
-//            panel.add(new JButton("Accept user"));
-//        }
-//        panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
-//
-//        rowHolderPanel.add(panel);
-//        rowHolderPanel.revalidate();
-//        rowHolderPanel.repaint();
+    private void generateSkiPanels(Ski ski, List<Ski> skis){
+        JPanel panel = new JPanel();
+        panel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        panel.add(new JLabel("S/N: " + ski.getSerialNumber() + " | ", SwingConstants.LEFT));
+        panel.add(new JLabel("l: " + ski.getLength() + "cm | ", SwingConstants.LEFT));
+        panel.add(new JLabel("Model: " + ski.getModel() + " | ", SwingConstants.LEFT));
+        panel.add(new JLabel("Owner: " + ski.getActualOwner() + " | ", SwingConstants.LEFT));
+
+        //z tego będzie przycisk "usuń"
+        //trzba sprawdzać czy można usunąć te narty
+        //panel.add(new JButton("Delete"));
+
+        panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+
+        rowHolderPanel.add(panel);
+        rowHolderPanel.revalidate();
+        rowHolderPanel.repaint();
     }
 
     public JPanel getContentPane() {

@@ -22,12 +22,13 @@ public class StorageDao implements Dao<Ski>{
 
     @Override
     public List<Ski> getAll() {
-        return null;
+        return skis;
     }
 
     @Override
     public Ski create(Ski ski) {
-        return null;
+        skis.add(ski);
+        return ski;
     }
 
     @Override

@@ -4,11 +4,15 @@ public class Ski {
     private String model;
     private boolean isBusy;
     private Integer length;
+    private String serialNumber;
+    private User actualOwner;
 
-    public Ski(String model, boolean isBusy, Integer length) {
+    public Ski(String model, Integer length, String serialNumber) {
         this.model = model;
-        this.isBusy = isBusy;
+        this.isBusy = false;
         this.length = length;
+        this.serialNumber = serialNumber;
+        this.actualOwner = null;
     }
 
     public String getModel() {
@@ -33,5 +37,21 @@ public class Ski {
 
     public void setLength(Integer length) {
         this.length = length;
+    }
+
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
+    public User getActualOwner() {
+        return actualOwner;
+    }
+
+    public void setActualOwner(User actualOwner) {
+        this.actualOwner = actualOwner;
     }
 }

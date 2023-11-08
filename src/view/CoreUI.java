@@ -3,6 +3,7 @@ package view;
 import dao.StorageDao;
 import dao.UserDao;
 import model.data.User;
+import service.addnewski.AddNewSki;
 import service.login.Login;
 import service.registration.Registration;
 import view.managerpanel.StorageManagerGUI;
@@ -51,7 +52,7 @@ public class CoreUI extends JFrame {
     }
 
     public void toggleStorageManager(User user){
-        StorageManagerGUI gui = new StorageManagerGUI(user, storageDao);
+        StorageManagerGUI gui = new StorageManagerGUI(user, storageDao.getAll(), new AddNewSki(this.storageDao));
         this.jpanel = gui.getContentPane();
         this.replaceView(this.jpanel);
     }

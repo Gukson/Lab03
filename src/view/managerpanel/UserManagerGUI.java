@@ -86,6 +86,9 @@ public class UserManagerGUI extends JFrame {
         this.logOutButton = new JButton("");
         this.logOutButton.setBounds(112, 342, 32, 28);
         this.logOutButton.setIcon(new ImageIcon("./images/logout.png"));
+        this.logOutButton.setOpaque(false);
+        this.logOutButton.setContentAreaFilled(false);
+        this.logOutButton.setBorderPainted(false);
         this.logOutButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(UserManagerGUI.this.contentPane);
@@ -115,7 +118,7 @@ public class UserManagerGUI extends JFrame {
 
 
         for(User u : users){
-            gereratePanels(u.getName(), u.getSurname(), u.getStatus(), u, user);
+            gereratePanels(u, user, users);
         }
 
     }
@@ -125,12 +128,14 @@ public class UserManagerGUI extends JFrame {
         return contentPane;
     }
 
-    private void gereratePanels(String Name, String Surname, String status, User user, User loggedUser){
+    private void gereratePanels(User user, User loggedUser, List<User> users){
         JPanel panel = new JPanel();
+        panel.setLayout(new FlowLayout(FlowLayout.CENTER));
         JButton acceptButton = null;
-        panel.add(new JLabel(Name + " " + Surname));
-        panel.add(Box.createHorizontalStrut(25));
-        if(status.equals("notAccepted")){
+        panel.add(new JLabel(user.getName() + " " + user.getSurname() + " | ", SwingConstants.LEFT));
+        panel.add(new JLabel("role: " + user.getRole(), SwingConstants.LEFT));
+        //more info extra window
+        if(user.getStatus().equals("notAccepted")){
             panel.add(acceptButton = new JButton("Accept user"));
             JButton finalAcceptButton1 = acceptButton;
             acceptButton.addActionListener(new ActionListener() {
@@ -143,13 +148,25 @@ public class UserManagerGUI extends JFrame {
                 }
             });
         }
+
+        JButton deleteUserButton = new JButton("Delete user");
+        panel.add(deleteUserButton);
+        deleteUserButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(!user.equals(loggedUser)){
+                    users.remove(user);
+                    panel.remove(deleteUserButton);
+                    CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(UserManagerGUI.this.contentPane);
+                    coreui.toggleUserManager(loggedUser);
+                }
+            }
+        });
+
         panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
 
         this.rowHolderPanel.add(panel);
         this.rowHolderPanel.revalidate();
         this.rowHolderPanel.repaint();
     }
-
 }
-
-
