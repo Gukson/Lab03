@@ -6,6 +6,7 @@ public class Ski {
     private Integer length;
     private String serialNumber;
     private User actualOwner;
+    private Reservation reservation;
 
     public Ski(String model, Integer length, String serialNumber) {
         this.model = model;
@@ -13,6 +14,7 @@ public class Ski {
         this.length = length;
         this.serialNumber = serialNumber;
         this.actualOwner = null;
+        this.reservation = null;
     }
 
     public String getModel() {

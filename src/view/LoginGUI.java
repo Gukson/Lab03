@@ -110,16 +110,14 @@ public class LoginGUI {
                 try{
                     User user = LoginGUI.this.login.login(nicknameField.getText(), passwordField.getPassword());
                     CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(LoginGUI.this.contentPane);
-                    System.out.println(user.getRole());
                     switch (user.getRole()) {
                         case "Client" ->
                             //go to client panel
-                                System.out.println("client");
+                                coreui.toggleClientOfert(user);
                         case "Employee" ->
                             //go to employee panel
                                 System.out.println("employee");
                         case "Manager" -> {
-                            System.out.println("Manager");
                             coreui.toggleUserManager(user);
                         }
                     }

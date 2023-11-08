@@ -6,6 +6,7 @@ import model.data.User;
 import service.addnewski.AddNewSki;
 import service.login.Login;
 import service.registration.Registration;
+import view.clientpanel.ClientOfertGUI;
 import view.managerpanel.StorageManagerGUI;
 import view.managerpanel.UserManagerGUI;
 
@@ -61,7 +62,9 @@ public class CoreUI extends JFrame {
 
     }
 
-    public void toggleClient() {
-
+    public void toggleClientOfert(User user) {
+        ClientOfertGUI gui = new ClientOfertGUI(user,storageDao.getAll());
+        this.jpanel = gui.getContentPane();
+        this.replaceView(this.jpanel);
     }
 }

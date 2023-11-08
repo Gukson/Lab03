@@ -1,8 +1,7 @@
-package view.managerpanel;
+package view.clientpanel;
 
 import model.data.Ski;
 import model.data.User;
-import service.addnewski.AddNewSki;
 import view.CoreUI;
 
 import javax.swing.*;
@@ -12,15 +11,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-public class StorageManagerGUI {
-    private static final long serialVersionUID = 1L;
+public class ClientOfertGUI {
     private JPanel contentPane, navBar, navigation, dataSection, outerPanel;
     private JPanel rowHolderPanel = new JPanel(new GridLayout(0, 1, 1, 1));
     private JLabel NameSurname, role, logo, pageTitle;
-    private JButton storage, usersDb, logOutButton, addNewSkiButton;
+    private JButton ofert, myReservation, logOutButton;
     private JScrollPane scrollPane;
 
-    public StorageManagerGUI(User loggedUser, List<Ski> skis, AddNewSki addNewSki){
+    public ClientOfertGUI(User loggedUser, List<Ski> skis){
         this.contentPane = new JPanel();
         this.contentPane.setBackground(Color.LIGHT_GRAY);
         this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -59,27 +57,27 @@ public class StorageManagerGUI {
         this.contentPane.add(this.navigation);
         this.navigation.setLayout(null);
 
-        this.storage = new JButton("Storage");
-        this.storage.setBounds(28, 64, 91, 29);
-        this.storage.addActionListener(new ActionListener() {
+        this.ofert = new JButton("Ofert");
+        this.ofert.setBounds(28, 64, 91, 29);
+        this.ofert.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(StorageManagerGUI.this.contentPane);
-                coreui.toggleStorageManager(loggedUser);
+                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(ClientOfertGUI.this.contentPane);
+                coreui.toggleClientOfert(loggedUser);
             }
         });
-        this.navigation.add(storage);
+        this.navigation.add(ofert);
 
-        this.usersDb = new JButton("users DB");
-        this.usersDb.setBounds(23, 23, 100, 29);
-        this.usersDb.addActionListener(new ActionListener() {
+        this.myReservation = new JButton("My Resevation");
+        this.myReservation.setBounds(23, 23, 100, 29);
+        this.myReservation.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(StorageManagerGUI.this.contentPane);
-                coreui.toggleUserManager(loggedUser);
+//                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(StorageManagerGUI.this.contentPane);
+//                coreui.toggleUserManager(loggedUser);
             }
         });
-        this.navigation.add(this.usersDb);
+        this.navigation.add(this.myReservation);
 
         this.logOutButton = new JButton();
         this.logOutButton.setBounds(112, 342, 32, 28);
@@ -89,31 +87,13 @@ public class StorageManagerGUI {
         this.logOutButton.setBorderPainted(false);
         this.logOutButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(StorageManagerGUI.this.contentPane);
+                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(ClientOfertGUI.this.contentPane);
                 coreui.toggleLogin();
             }
         });
         this.navigation.add(this.logOutButton);
 
-        this.addNewSkiButton = new JButton();
-        this.addNewSkiButton.setBounds(112, 300, 32, 28);
-        this.addNewSkiButton.setIcon(new ImageIcon("./images/more.png"));
-        this.addNewSkiButton.setOpaque(false);
-        this.addNewSkiButton.setContentAreaFilled(false);
-        this.addNewSkiButton.setBorderPainted(false);
-        this.addNewSkiButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(StorageManagerGUI.this.contentPane);
-                AddNewSkisGUI frame = new AddNewSkisGUI(addNewSki,coreui,loggedUser);
-                frame.setVisible(true);
-            }
-        });
-
-        this.navigation.add(addNewSkiButton);
-
-
-        this.pageTitle = new JLabel("Storage");
+        this.pageTitle = new JLabel("Ofert");
         this.pageTitle.setBounds(414, 61, 61, 16);
         this.contentPane.add(this.pageTitle);
 
@@ -130,16 +110,14 @@ public class StorageManagerGUI {
 
         this.dataSection.setLayout(new BorderLayout());
         this.dataSection.add(scrollPane, BorderLayout.CENTER);
-        
+
         for(Ski s : skis){
-            generateSkiPanels(s);
+            if(s.getActualOwner() == null){
+                generateSkiPanels(s);
+            }
         }
+
     }
-
-    private void setContentPane(JPanel contentPane) {
-    }
-
-
     private void generateSkiPanels(Ski ski){
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -148,8 +126,7 @@ public class StorageManagerGUI {
         panel.add(new JLabel("Model: " + ski.getModel() + " | ", SwingConstants.LEFT));
         panel.add(new JLabel("Owner: " + ski.getActualOwner() + " | ", SwingConstants.LEFT));
 
-        //z tego będzie przycisk "usuń"
-        //trzba sprawdzać czy można usunąć te narty
+        //z tego będzie przycisk zarezewuj
         //panel.add(new JButton("Delete"));
 
         panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
@@ -161,5 +138,9 @@ public class StorageManagerGUI {
 
     public JPanel getContentPane() {
         return contentPane;
+    }
+
+    public void setContentPane(JPanel contentPane) {
+        this.contentPane = contentPane;
     }
 }

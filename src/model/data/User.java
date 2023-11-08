@@ -14,7 +14,7 @@ public class User {
         this.name = name;
         this.surname = surname;
         this.status = status;
-        this.role = "client";
+        this.role = "Client";
         this.nickname = nickname;
         this.password = password;
     }
