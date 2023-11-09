@@ -1,6 +1,7 @@
 package view.managerpanel;
 
 import exceptions.SaveNewSkiException;
+import exceptions.ValidationException;
 import model.data.User;
 import service.addnewski.AddNewSki;
 import view.CoreUI;
@@ -89,10 +90,12 @@ public class AddNewSkisGUI extends JFrame {
                     dispose();
                 }catch (SaveNewSkiException e2){
                     errorMessage.setText("skis with this serial number already exist");
+                }catch (ValidationException e3){
+                    errorMessage.setText(e3.getMessage());
                 }
             }
         });
-
+        
         contentPane.add(saveButton);
     }
 }

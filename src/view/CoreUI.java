@@ -64,7 +64,7 @@ public class CoreUI extends JFrame {
     }
 
     public void toggleClientOfert(User user) {
-        ClientGUI gui = new ClientGUI(user,storageDao.getAll(), new Reserve());
+        ClientGUI gui = new ClientGUI(user,storageDao, new Reserve());
         this.jpanel = gui.getContentPane();
         this.replaceView(this.jpanel);
     }

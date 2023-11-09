@@ -1,5 +1,6 @@
 package view.clientpanel;
 
+import dao.StorageDao;
 import exceptions.CreationException;
 import model.data.Ski;
 import model.data.User;
@@ -21,7 +22,7 @@ public class ClientGUI {
     private JScrollPane scrollPane;
     private Reserve reserve;
 
-    public ClientGUI(User loggedUser, List<Ski> skis, Reserve reserve){
+    public ClientGUI(User loggedUser, StorageDao storageDao, Reserve reserve){
         this.reserve = reserve;
         this.contentPane = new JPanel();
         this.contentPane.setBackground(Color.LIGHT_GRAY);
@@ -70,7 +71,7 @@ public class ClientGUI {
 //                coreui.toggleClientOfert(loggedUser);
                 rowHolderPanel.removeAll();
                 pageTitle.setText("Ofert");
-                for(Ski s : skis){
+                for(Ski s : storageDao.getAll()){
                     if(s.getActualOwner() == null){
                         generateSkiPanels(s, loggedUser, messageLabel);
                     }
@@ -90,7 +91,7 @@ public class ClientGUI {
 //                coreui.toggleUserManager(loggedUser);
                 rowHolderPanel.removeAll();
                 pageTitle.setText("My Reservation");
-                for(Ski s : skis){
+                for(Ski s : storageDao.getAll()){
                     if(s.getActualOwner() == loggedUser){
                         generateSkiPanels(s, loggedUser, messageLabel);
                     }
@@ -139,7 +140,7 @@ public class ClientGUI {
 
 
 
-        for(Ski s : skis){
+        for(Ski s : storageDao.getAll()){
             if(s.getActualOwner() == null){
                 generateSkiPanels(s, loggedUser, this.messageLabel);
             }
