@@ -16,6 +16,7 @@ public class AddNewSkisGUI extends JFrame {
     private JPanel contentPane;
     private JTextField serialNumberField;
     private JTextField lengthField;
+    private JLabel errorMessage;
 
     public AddNewSkisGUI(AddNewSki addNewSki, CoreUI coreUI, User loggedUser) {
         //setAlwaysOnTop(true);
@@ -69,33 +70,33 @@ public class AddNewSkisGUI extends JFrame {
         priceField.setBounds(115, 132, 100, 26);
         contentPane.add(priceField);
 
-        JLabel errorMessage = new JLabel("");
-        errorMessage.setHorizontalAlignment(SwingConstants.CENTER);
-        errorMessage.setBounds(6, 187, 318, 16);
-        errorMessage.setFont(new Font("Lucida Grande", Font.PLAIN, 11));
-        errorMessage.setHorizontalAlignment(SwingConstants.CENTER);
-        errorMessage.setForeground(new Color(255, 30, 0));
-        errorMessage.setBounds(480, 222, 240, 16);
-        contentPane.add(errorMessage);
+
 
         JButton saveButton = new JButton("Save");
-        saveButton.setBounds(111, 158, 117, 29);
+        saveButton.setBounds(111, 156, 117, 29);
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try{
                     //ustawić limity liter
-                    addNewSki.AddNewSki(serialNumberField.getText(),Integer.parseInt(lengthField.getText()), String.valueOf(modelBox.getSelectedItem()), Integer.parseInt(priceField.getText()));
+                    addNewSki.AddNewSki(serialNumberField.getText(),lengthField.getText(), String.valueOf(modelBox.getSelectedItem()), priceField.getText());
                     coreUI.toggleStorageManager(loggedUser);
                     dispose();
-                }catch (SaveNewSkiException e2){
-                    errorMessage.setText("skis with this serial number already exist");
-                }catch (ValidationException e3){
-                    errorMessage.setText(e3.getMessage());
+                }catch (ValidationException e2){
+                    AddNewSkisGUI.this.errorMessage.setText("Empty " + e2.toString());
+                }catch (SaveNewSkiException e3){
+                    AddNewSkisGUI.this.errorMessage.setText("skis with this serial number already exist");
                 }
             }
         });
         
         contentPane.add(saveButton);
+        
+        this.errorMessage = new JLabel("");
+        this.errorMessage.setHorizontalAlignment(SwingConstants.CENTER);
+        this.errorMessage.setBounds(6, 187, 318, 16);
+        this.errorMessage.setFont(new Font("Lucida Grande", Font.PLAIN, 11));
+        this.errorMessage.setForeground(new Color(255, 30, 0));
+        this.contentPane.add(errorMessage);
     }
 }

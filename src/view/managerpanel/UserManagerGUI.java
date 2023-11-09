@@ -130,7 +130,8 @@ public class UserManagerGUI extends JFrame {
 
     private void gereratePanels(User user, User loggedUser, List<User> users){
         JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        panel.setLayout(new FlowLayout(FlowLayout.A));
+
         JButton acceptButton = null;
         panel.add(new JLabel(user.getName() + " " + user.getSurname() + " | ", SwingConstants.LEFT));
         panel.add(new JLabel("role: " + user.getRole(), SwingConstants.LEFT));
@@ -148,7 +149,7 @@ public class UserManagerGUI extends JFrame {
                 }
             });
         }
-
+        System.out.println(panel.getSize());
         JButton deleteUserButton = new JButton("Delete user");
         panel.add(deleteUserButton);
         deleteUserButton.addActionListener(new ActionListener() {

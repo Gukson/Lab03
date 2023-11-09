@@ -106,6 +106,7 @@ public class StorageManagerGUI {
             public void actionPerformed(ActionEvent e) {
                 CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(StorageManagerGUI.this.contentPane);
                 AddNewSkisGUI frame = new AddNewSkisGUI(addNewSki,coreui,loggedUser);
+                frame.setLocation(contentPane.getLocationOnScreen());
                 frame.setVisible(true);
             }
         });

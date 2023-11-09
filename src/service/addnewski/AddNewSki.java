@@ -16,13 +16,11 @@ public class AddNewSki {
         this.storageDao = storageDao;
     }
 
-    public Ski AddNewSki(String serialNumber, Integer length, String model, Integer price){
-        checkSerialNumber(serialNumber);
+    public void AddNewSki(String serialNumber, String length, String model, String price){
         validate(serialNumber,length,model,price);
-        Ski s = new Ski(model, length, serialNumber, price);
-        storageDao.create(s);
+        checkSerialNumber(serialNumber);
 
-        return s;
+        storageDao.create(new Ski(model, Integer.parseInt(length), serialNumber, Integer.parseInt(price)));
     }
 
     private boolean checkSerialNumber(String sNumber){
@@ -35,15 +33,15 @@ public class AddNewSki {
         return true;
     }
 
-    private boolean validate(String serialNumber, Integer length, String model, Integer price) {
+    private boolean validate(String serialNumber, String length, String model, String price) {
         List<String> fieldsWithErrors = new ArrayList<>();
-        if (serialNumber.length() == 0) {
+        if (serialNumber.isEmpty()) {
             fieldsWithErrors.add("serrialNumber");
-        } if (length != 0) {
+        } if (length.isEmpty()) {
             fieldsWithErrors.add("length");
-        }if(model.length() == 0){
+        }if(model.isEmpty()){
             fieldsWithErrors.add("model");
-        }if(price != 0){
+        }if(price.isEmpty()){
             fieldsWithErrors.add("price");
         }
         if (fieldsWithErrors.isEmpty()) {
