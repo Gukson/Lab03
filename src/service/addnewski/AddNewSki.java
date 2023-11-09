@@ -12,9 +12,9 @@ public class AddNewSki {
         this.storageDao = storageDao;
     }
 
-    public Ski AddNewSki(String serialNumber, Integer length, String model){
+    public Ski AddNewSki(String serialNumber, Integer length, String model, Integer price){
         checkSerialNumber(serialNumber);
-        Ski s = new Ski(model, length, serialNumber);
+        Ski s = new Ski(model, length, serialNumber, price);
         storageDao.create(s);
 
         return s;

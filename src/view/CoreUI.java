@@ -2,10 +2,12 @@ package view;
 
 import dao.StorageDao;
 import dao.UserDao;
+import model.data.Reservation;
 import model.data.User;
 import service.addnewski.AddNewSki;
 import service.login.Login;
 import service.registration.Registration;
+import service.reservation.Reserve;
 import view.clientpanel.ClientOfertGUI;
 import view.managerpanel.StorageManagerGUI;
 import view.managerpanel.UserManagerGUI;
@@ -63,7 +65,7 @@ public class CoreUI extends JFrame {
     }
 
     public void toggleClientOfert(User user) {
-        ClientOfertGUI gui = new ClientOfertGUI(user,storageDao.getAll());
+        ClientOfertGUI gui = new ClientOfertGUI(user,storageDao.getAll(), new Reserve());
         this.jpanel = gui.getContentPane();
         this.replaceView(this.jpanel);
     }

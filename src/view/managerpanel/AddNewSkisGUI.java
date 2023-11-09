@@ -38,28 +38,39 @@ public class AddNewSkisGUI extends JFrame {
 
         JLabel lengthLabel = new JLabel("Length (cm)");
         lengthLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        lengthLabel.setBounds(60, 72, 107, 16);
+        lengthLabel.setBounds(28, 72, 107, 16);
         contentPane.add(lengthLabel);
 
         lengthField = new JTextField();
         lengthField.setColumns(10);
         lengthField.setBackground(new Color(255, 250, 205));
-        lengthField.setBounds(60, 91, 107, 26);
+        lengthField.setBounds(28, 91, 107, 26);
         contentPane.add(lengthField);
 
         JComboBox modelBox = new JComboBox();
         modelBox.setModel(new DefaultComboBoxModel(new String[] {"allround", "allmountain", "lady", "race", "freeride", "freestyle"}));
-        modelBox.setBounds(179, 92, 125, 27);
+        modelBox.setBounds(193, 92, 109, 27);
         contentPane.add(modelBox);
 
         JLabel modelLabel = new JLabel("Model");
         modelLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        modelLabel.setBounds(179, 72, 125, 16);
+        modelLabel.setBounds(193, 72, 109, 16);
         contentPane.add(modelLabel);
+
+        JLabel priceLabel = new JLabel("Price");
+        priceLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        priceLabel.setBounds(115, 116, 100, 16);
+        contentPane.add(priceLabel);
+
+        JTextField priceField = new JTextField();
+        priceField.setColumns(10);
+        priceField.setBackground(new Color(255, 250, 205));
+        priceField.setBounds(115, 132, 100, 26);
+        contentPane.add(priceField);
 
         JLabel errorMessage = new JLabel("");
         errorMessage.setHorizontalAlignment(SwingConstants.CENTER);
-        errorMessage.setBounds(6, 170, 318, 16);
+        errorMessage.setBounds(6, 187, 318, 16);
         errorMessage.setFont(new Font("Lucida Grande", Font.PLAIN, 11));
         errorMessage.setHorizontalAlignment(SwingConstants.CENTER);
         errorMessage.setForeground(new Color(255, 30, 0));
@@ -67,13 +78,13 @@ public class AddNewSkisGUI extends JFrame {
         contentPane.add(errorMessage);
 
         JButton saveButton = new JButton("Save");
-        saveButton.setBounds(113, 129, 117, 29);
+        saveButton.setBounds(111, 158, 117, 29);
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try{
                     //ustawić limity liter
-                    addNewSki.AddNewSki(serialNumberField.getText(),Integer.parseInt(lengthField.getText()), String.valueOf(modelBox.getSelectedItem()));
+                    addNewSki.AddNewSki(serialNumberField.getText(),Integer.parseInt(lengthField.getText()), String.valueOf(modelBox.getSelectedItem()), Integer.parseInt(priceField.getText()));
                     coreUI.toggleStorageManager(loggedUser);
                     dispose();
                 }catch (SaveNewSkiException e2){

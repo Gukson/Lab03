@@ -6,15 +6,15 @@ public class Ski {
     private Integer length;
     private String serialNumber;
     private User actualOwner;
-    private Reservation reservation;
+    private Integer price;
 
-    public Ski(String model, Integer length, String serialNumber) {
+    public Ski(String model, Integer length, String serialNumber, Integer price) {
         this.model = model;
         this.isBusy = false;
         this.length = length;
         this.serialNumber = serialNumber;
         this.actualOwner = null;
-        this.reservation = null;
+        this.price = price;
     }
 
     public String getModel() {
@@ -55,5 +55,15 @@ public class Ski {
 
     public void setActualOwner(User actualOwner) {
         this.actualOwner = actualOwner;
+    }
+
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
+
+    public Integer getPrice() {
+        return price;
     }
 }

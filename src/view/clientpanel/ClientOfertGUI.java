@@ -1,8 +1,12 @@
 package view.clientpanel;
 
+import exceptions.CreationException;
+import model.data.Reservation;
 import model.data.Ski;
 import model.data.User;
+import service.reservation.Reserve;
 import view.CoreUI;
+import view.managerpanel.UserManagerGUI;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -14,11 +18,13 @@ import java.util.List;
 public class ClientOfertGUI {
     private JPanel contentPane, navBar, navigation, dataSection, outerPanel;
     private JPanel rowHolderPanel = new JPanel(new GridLayout(0, 1, 1, 1));
-    private JLabel NameSurname, role, logo, pageTitle;
+    private JLabel NameSurname, role, logo, pageTitle, messageLabel;
     private JButton ofert, myReservation, logOutButton;
     private JScrollPane scrollPane;
+    private Reserve reserve;
 
-    public ClientOfertGUI(User loggedUser, List<Ski> skis){
+    public ClientOfertGUI(User loggedUser, List<Ski> skis, Reserve reserve){
+        this.reserve = reserve;
         this.contentPane = new JPanel();
         this.contentPane.setBackground(Color.LIGHT_GRAY);
         this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -69,7 +75,7 @@ public class ClientOfertGUI {
         this.navigation.add(ofert);
 
         this.myReservation = new JButton("My Resevation");
-        this.myReservation.setBounds(23, 23, 100, 29);
+        this.myReservation.setBounds(13, 23, 120, 29);
         this.myReservation.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -94,8 +100,13 @@ public class ClientOfertGUI {
         this.navigation.add(this.logOutButton);
 
         this.pageTitle = new JLabel("Ofert");
-        this.pageTitle.setBounds(414, 61, 61, 16);
+        this.pageTitle.setBounds(414, 54, 61, 16);
         this.contentPane.add(this.pageTitle);
+
+        this.messageLabel = new JLabel();
+        this.messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        this.messageLabel.setBounds(162, 70, 533, 16);
+        this.contentPane.add(this.messageLabel);
 
         this.dataSection = new JPanel();
         this.dataSection.setBorder(null);
@@ -111,23 +122,41 @@ public class ClientOfertGUI {
         this.dataSection.setLayout(new BorderLayout());
         this.dataSection.add(scrollPane, BorderLayout.CENTER);
 
+
+
         for(Ski s : skis){
             if(s.getActualOwner() == null){
-                generateSkiPanels(s);
+                generateSkiPanels(s, loggedUser, this.messageLabel);
             }
         }
 
     }
-    private void generateSkiPanels(Ski ski){
+    private void generateSkiPanels(Ski ski, User loggedUser, JLabel messageLabel){
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout(FlowLayout.CENTER));
         panel.add(new JLabel("S/N: " + ski.getSerialNumber() + " | ", SwingConstants.LEFT));
         panel.add(new JLabel("l: " + ski.getLength() + "cm | ", SwingConstants.LEFT));
         panel.add(new JLabel("Model: " + ski.getModel() + " | ", SwingConstants.LEFT));
-        panel.add(new JLabel("Owner: " + ski.getActualOwner() + " | ", SwingConstants.LEFT));
+        panel.add(new JLabel("Price: " + ski.getPrice() + " | ", SwingConstants.LEFT));
 
-        //z tego będzie przycisk zarezewuj
-        //panel.add(new JButton("Delete"));
+        JButton reserveBT = new JButton("Reserve");
+        panel.add(reserveBT);
+        reserveBT.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    ClientOfertGUI.this.reserve.reservation(ski,loggedUser);
+                    panel.remove(reserveBT);
+                    CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(ClientOfertGUI.this.contentPane);
+                    coreui.toggleClientOfert(loggedUser);
+                    messageLabel.setText("Succesfully reserved");
+                    messageLabel.setForeground(Color.GREEN);
+                }catch (CreationException e2){
+                    messageLabel.setText("Reservation error");
+                    messageLabel.setForeground(Color.RED);
+                }
+            }
+        });
 
         panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
 

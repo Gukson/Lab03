@@ -1,5 +1,7 @@
 package model.data;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class User {
@@ -9,6 +11,7 @@ public class User {
     private String status;
     private String role;
     private String nickname;
+    private List<Reservation> reservations;
 
     public User(String name, String surname, String nickname, char[] password, String status) {
         this.name = name;
@@ -17,6 +20,7 @@ public class User {
         this.role = "Client";
         this.nickname = nickname;
         this.password = password;
+        this.reservations = new ArrayList<>();
     }
 
     public User(String name, String surname, String nickname, char[] password, String status, String role) {
@@ -71,6 +75,15 @@ public class User {
     public char[] getPassword() {
         return password;
     }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
 }
 
 //interfejs entity

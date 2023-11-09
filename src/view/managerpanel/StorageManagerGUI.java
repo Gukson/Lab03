@@ -146,7 +146,13 @@ public class StorageManagerGUI {
         panel.add(new JLabel("S/N: " + ski.getSerialNumber() + " | ", SwingConstants.LEFT));
         panel.add(new JLabel("l: " + ski.getLength() + "cm | ", SwingConstants.LEFT));
         panel.add(new JLabel("Model: " + ski.getModel() + " | ", SwingConstants.LEFT));
-        panel.add(new JLabel("Owner: " + ski.getActualOwner() + " | ", SwingConstants.LEFT));
+        panel.add(new JLabel("Price: " + ski.getPrice() + " | ", SwingConstants.LEFT));
+        if(ski.getActualOwner() == null){
+            panel.add(new JLabel("Owner: " + ski.getActualOwner() + " | ", SwingConstants.LEFT));
+        }else {
+            panel.add(new JLabel("Owner: " + ski.getActualOwner().getName() + " " + ski.getActualOwner().getSurname() +  " | ", SwingConstants.LEFT));
+        }
+
 
         //z tego będzie przycisk "usuń"
         //trzba sprawdzać czy można usunąć te narty
