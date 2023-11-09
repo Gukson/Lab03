@@ -1,12 +1,10 @@
 package view.clientpanel;
 
 import exceptions.CreationException;
-import model.data.Reservation;
 import model.data.Ski;
 import model.data.User;
 import service.reservation.Reserve;
 import view.CoreUI;
-import view.managerpanel.UserManagerGUI;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -15,7 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-public class ClientOfertGUI {
+public class ClientGUI {
     private JPanel contentPane, navBar, navigation, dataSection, outerPanel;
     private JPanel rowHolderPanel = new JPanel(new GridLayout(0, 1, 1, 1));
     private JLabel NameSurname, role, logo, pageTitle, messageLabel;
@@ -23,7 +21,7 @@ public class ClientOfertGUI {
     private JScrollPane scrollPane;
     private Reserve reserve;
 
-    public ClientOfertGUI(User loggedUser, List<Ski> skis, Reserve reserve){
+    public ClientGUI(User loggedUser, List<Ski> skis, Reserve reserve){
         this.reserve = reserve;
         this.contentPane = new JPanel();
         this.contentPane.setBackground(Color.LIGHT_GRAY);
@@ -68,8 +66,17 @@ public class ClientOfertGUI {
         this.ofert.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(ClientOfertGUI.this.contentPane);
-                coreui.toggleClientOfert(loggedUser);
+//                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(ClientGUI.this.contentPane);
+//                coreui.toggleClientOfert(loggedUser);
+                rowHolderPanel.removeAll();
+                pageTitle.setText("Ofert");
+                for(Ski s : skis){
+                    if(s.getActualOwner() == null){
+                        generateSkiPanels(s, loggedUser, messageLabel);
+                    }
+                }
+
+
             }
         });
         this.navigation.add(ofert);
@@ -81,6 +88,14 @@ public class ClientOfertGUI {
             public void actionPerformed(ActionEvent e) {
 //                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(StorageManagerGUI.this.contentPane);
 //                coreui.toggleUserManager(loggedUser);
+                rowHolderPanel.removeAll();
+                pageTitle.setText("My Reservation");
+                for(Ski s : skis){
+                    if(s.getActualOwner() == loggedUser){
+                        generateSkiPanels(s, loggedUser, messageLabel);
+                    }
+                }
+
             }
         });
         this.navigation.add(this.myReservation);
@@ -93,14 +108,14 @@ public class ClientOfertGUI {
         this.logOutButton.setBorderPainted(false);
         this.logOutButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(ClientOfertGUI.this.contentPane);
+                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(ClientGUI.this.contentPane);
                 coreui.toggleLogin();
             }
         });
         this.navigation.add(this.logOutButton);
 
         this.pageTitle = new JLabel("Ofert");
-        this.pageTitle.setBounds(414, 54, 61, 16);
+        this.pageTitle.setBounds(396, 54, 100, 16);
         this.contentPane.add(this.pageTitle);
 
         this.messageLabel = new JLabel();
@@ -145,9 +160,9 @@ public class ClientOfertGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try{
-                    ClientOfertGUI.this.reserve.reservation(ski,loggedUser);
+                    ClientGUI.this.reserve.reservation(ski,loggedUser);
                     panel.remove(reserveBT);
-                    CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(ClientOfertGUI.this.contentPane);
+                    CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(ClientGUI.this.contentPane);
                     coreui.toggleClientOfert(loggedUser);
                     messageLabel.setText("Succesfully reserved");
                     messageLabel.setForeground(Color.GREEN);
