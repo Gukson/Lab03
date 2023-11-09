@@ -130,27 +130,74 @@ public class UserManagerGUI extends JFrame {
 
     private void gereratePanels(User user, User loggedUser, List<User> users){
         JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout(FlowLayout.A));
+        panel.setBounds(0,0,600,94);
+        panel.setPreferredSize(new Dimension(600,94));
+        panel.setLayout(null);
 
-        JButton acceptButton = null;
-        panel.add(new JLabel(user.getName() + " " + user.getSurname() + " | ", SwingConstants.LEFT));
-        panel.add(new JLabel("role: " + user.getRole(), SwingConstants.LEFT));
-        //more info extra window
+        JButton setClientRoleButton = new JButton("set client");
+        setClientRoleButton.setBounds(494, 6, 117, 30);
+        panel.add(setClientRoleButton);
+        setClientRoleButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                user.setRole("Client");
+                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(UserManagerGUI.this.contentPane);
+                coreui.toggleUserManager(loggedUser);
+            }
+        });
+
+        JButton setEmployeeRoleButton = new JButton("set employee");
+        setEmployeeRoleButton.setBounds(494, 32, 117, 30);
+        panel.add(setEmployeeRoleButton);
+        setEmployeeRoleButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                user.setRole("Employee");
+                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(UserManagerGUI.this.contentPane);
+                coreui.toggleUserManager(loggedUser);
+            }
+        });
+
+        JButton setManagerButton = new JButton("set manager");
+        setManagerButton.setBounds(494, 60, 117, 29);
+        panel.add(setManagerButton);
+        setManagerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                user.setRole("Manager");
+                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(UserManagerGUI.this.contentPane);
+                coreui.toggleUserManager(loggedUser);
+            }
+        });
+
+
+        JLabel nameSurnameLabel = new JLabel(user.getName() + " " + user.getSurname());
+        nameSurnameLabel.setBounds(189, 12, 161, 16);
+        nameSurnameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        panel.add(nameSurnameLabel);
+
+        JLabel roleLabel = new JLabel("Role: " + user.getRole());
+        roleLabel.setBounds(189, 38, 161, 16);
+        roleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        panel.add(roleLabel);
+
+        JButton acceptButton = new JButton("Accept");
+        acceptButton.setBounds(378, 33, 117, 29);
         if(user.getStatus().equals("notAccepted")){
-            panel.add(acceptButton = new JButton("Accept user"));
-            JButton finalAcceptButton1 = acceptButton;
+            panel.add(acceptButton);
             acceptButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     user.setStatus("Accepted");
-                    panel.remove(finalAcceptButton1);
+                    panel.remove(acceptButton);
                     CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(UserManagerGUI.this.contentPane);
                     coreui.toggleUserManager(loggedUser);
                 }
             });
         }
-        System.out.println(panel.getSize());
-        JButton deleteUserButton = new JButton("Delete user");
+
+        JButton deleteUserButton = new JButton("Delete User");
+        deleteUserButton.setBounds(378, 60, 117, 29);
         panel.add(deleteUserButton);
         deleteUserButton.addActionListener(new ActionListener() {
             @Override
