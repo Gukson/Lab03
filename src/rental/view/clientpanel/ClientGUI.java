@@ -12,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 public class ClientGUI {
     private JPanel contentPane, navBar, navigation, dataSection, outerPanel;
@@ -71,8 +72,8 @@ public class ClientGUI {
                 rowHolderPanel.removeAll();
                 pageTitle.setText("Ofert");
                 for(Ski s : storageDao.getAll()){
-                    if(s.getActualOwner() == null){
-                        generateSkiPanels(s, loggedUser, messageLabel);
+                    if(s.getUserID() == 0){
+                        generateSkiPanels(s, loggedUser, messageLabel, storageDao);
                     }
                 }
 
@@ -86,13 +87,11 @@ public class ClientGUI {
         this.myReservation.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(StorageManagerGUI.this.contentPane);
-//                coreui.toggleUserManager(loggedUser);
                 rowHolderPanel.removeAll();
                 pageTitle.setText("My Reservation");
                 for(Ski s : storageDao.getAll()){
-                    if(s.getActualOwner() == loggedUser){
-                        generateSkiPanels(s, loggedUser, messageLabel);
+                    if(Objects.equals(s.getUserID(), loggedUser.getId())){
+                        generateSkiPanels(s, loggedUser, messageLabel, storageDao);
                     }
                 }
 
@@ -137,16 +136,14 @@ public class ClientGUI {
         this.dataSection.setLayout(new BorderLayout());
         this.dataSection.add(scrollPane, BorderLayout.CENTER);
 
-
-
         for(Ski s : storageDao.getAll()){
-            if(s.getActualOwner() == null){
-                generateSkiPanels(s, loggedUser, this.messageLabel);
+            if(s.getUserID() == 0){
+                generateSkiPanels(s, loggedUser, this.messageLabel,storageDao);
             }
         }
 
     }
-    private void generateSkiPanels(Ski ski, User loggedUser, JLabel messageLabel){
+    private void generateSkiPanels(Ski ski, User loggedUser, JLabel messageLabel, StorageDao storageDao){
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout(FlowLayout.CENTER));
         panel.add(new JLabel("S/N: " + ski.getSerialNumber() + " | ", SwingConstants.LEFT));
@@ -160,12 +157,13 @@ public class ClientGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try{
-                    ClientGUI.this.reserve.reservation(ski,loggedUser);
+                    ClientGUI.this.reserve.reservation(ski,storageDao, loggedUser);
+                    System.out.println("Siema");
                     panel.remove(reserveBT);
                     CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(ClientGUI.this.contentPane);
                     coreui.toggleClientOfert(loggedUser);
-                    messageLabel.setText("Succesfully reserved");
-                    messageLabel.setForeground(Color.GREEN);
+////                    messageLabel.setText("Succesfully reserved");
+//                    messageLabel.setForeground(Color.GREEN);
                 }catch (CreationException e2){
                     messageLabel.setText("Reservation error");
                     messageLabel.setForeground(Color.RED);

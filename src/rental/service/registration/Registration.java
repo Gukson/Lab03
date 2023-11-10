@@ -45,7 +45,7 @@ public class Registration {
     }
 
     private boolean isNicknameAvailable(String nickname){
-        for(User u : userDao.getUsers()){
+        for(User u : userDao.getAll()){
             if(u.getNickname().equals(nickname)){
                 return false;
             }

@@ -117,7 +117,7 @@ public class UserManagerGUI extends JFrame {
         this.dataSection.add(this.scrollPane, BorderLayout.CENTER);
 
 
-        for(User u : userDao.getUsers()){
+        for(User u : userDao.getAll()){
             gereratePanels(u, user, userDao);
         }
 
@@ -140,7 +140,7 @@ public class UserManagerGUI extends JFrame {
         setClientRoleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                user.setRole("Client");
+                userDao.update(user,new String[]{"Role", "Accepted"});
                 CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(UserManagerGUI.this.contentPane);
                 coreui.toggleUserManager(loggedUser);
             }
@@ -152,7 +152,7 @@ public class UserManagerGUI extends JFrame {
         setEmployeeRoleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                user.setRole("Employee");
+                userDao.update(user,new String[]{"Role", "Accepted"});
                 CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(UserManagerGUI.this.contentPane);
                 coreui.toggleUserManager(loggedUser);
             }
@@ -164,7 +164,7 @@ public class UserManagerGUI extends JFrame {
         setManagerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                user.setRole("Manager");
+                userDao.update(user,new String[]{"Role", "Accepted"});
                 CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(UserManagerGUI.this.contentPane);
                 coreui.toggleUserManager(loggedUser);
             }
@@ -188,7 +188,7 @@ public class UserManagerGUI extends JFrame {
             acceptButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    user.setStatus("Accepted");
+                    userDao.update(user,new String[]{"Status", "Accepted"});
                     panel.remove(acceptButton);
                     CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(UserManagerGUI.this.contentPane);
                     coreui.toggleUserManager(loggedUser);

@@ -54,7 +54,7 @@ public class CoreUI extends JFrame {
     }
 
     public void toggleStorageManager(User user){
-        StorageManagerGUI gui = new StorageManagerGUI(user, storageDao.getAll(), new AddNewSki(this.storageDao));
+        StorageManagerGUI gui = new StorageManagerGUI(user, storageDao.getAll(), new AddNewSki(this.storageDao), userDao);
         this.jpanel = gui.getContentPane();
         this.replaceView(this.jpanel);
     }

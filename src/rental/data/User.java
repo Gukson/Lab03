@@ -11,6 +11,8 @@ public class User {
     private String role;
     private String nickname;
     private List<Reservation> reservations;
+    private Integer id;
+
 
     public User(String name, String surname, String nickname, char[] password, String status) {
         this.name = name;
@@ -22,13 +24,15 @@ public class User {
         this.reservations = new ArrayList<>();
     }
 
-    public User(String name, String surname, String nickname, char[] password, String status, String role) {
+    public User(String name, String surname, String nickname, char[] password, String status, String role, Integer id) {
         this.name = name;
         this.surname = surname;
         this.status = status;
         this.role = role;
         this.nickname = nickname;
         this.password = password;
+        this.reservations = new ArrayList<>();
+        this.id = id;
     }
 
     public String getName() {
@@ -51,36 +55,16 @@ public class User {
         return nickname;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
     public char[] getPassword() {
         return password;
     }
 
-    public List<Reservation> getReservations() {
-        return reservations;
+    public Integer getId() {
+        return id;
     }
 
-    public void setReservations(List<Reservation> reservations) {
-        this.reservations = reservations;
+    public List<Reservation> getReservations() {
+        return reservations;
     }
 
 }

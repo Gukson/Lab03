@@ -4,14 +4,21 @@ public class Ski {
     private String model;
     private Integer length;
     private String serialNumber;
-    private User actualOwner;
+    private Integer userID;
     private Integer price;
 
     public Ski(String model, Integer length, String serialNumber, Integer price) {
         this.model = model;
         this.length = length;
         this.serialNumber = serialNumber;
-        this.actualOwner = null;
+        this.userID = null;
+        this.price = price;
+    }
+    public Ski(String model, Integer length, String serialNumber, Integer price, Integer userId) {
+        this.model = model;
+        this.length = length;
+        this.serialNumber = serialNumber;
+        this.userID = userId;
         this.price = price;
     }
 
@@ -39,14 +46,9 @@ public class Ski {
         this.serialNumber = serialNumber;
     }
 
-    public User getActualOwner() {
-        return actualOwner;
+    public Integer getUserID() {
+        return userID;
     }
-
-    public void setActualOwner(User actualOwner) {
-        this.actualOwner = actualOwner;
-    }
-
 
     public void setPrice(Integer price) {
         this.price = price;

@@ -1,5 +1,6 @@
 package rental.view.managerpanel;
 
+import rental.dao.UserDao;
 import rental.data.Ski;
 import rental.data.User;
 import rental.service.addnewski.AddNewSki;
@@ -20,7 +21,7 @@ public class StorageManagerGUI {
     private JButton storage, usersDb, logOutButton, addNewSkiButton;
     private JScrollPane scrollPane;
 
-    public StorageManagerGUI(User loggedUser, List<Ski> skis, AddNewSki addNewSki){
+    public StorageManagerGUI(User loggedUser, List<Ski> skis, AddNewSki addNewSki, UserDao userDao){
         this.contentPane = new JPanel();
         this.contentPane.setBackground(Color.LIGHT_GRAY);
         this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -133,7 +134,7 @@ public class StorageManagerGUI {
         this.dataSection.add(scrollPane, BorderLayout.CENTER);
         
         for(Ski s : skis){
-            generateSkiPanels(s);
+            generateSkiPanels(s,userDao);
         }
     }
 
@@ -141,17 +142,17 @@ public class StorageManagerGUI {
     }
 
 
-    private void generateSkiPanels(Ski ski){
+    private void generateSkiPanels(Ski ski, UserDao userDao){
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout(FlowLayout.CENTER));
         panel.add(new JLabel("S/N: " + ski.getSerialNumber() + " | ", SwingConstants.LEFT));
         panel.add(new JLabel("l: " + ski.getLength() + "cm | ", SwingConstants.LEFT));
         panel.add(new JLabel("Model: " + ski.getModel() + " | ", SwingConstants.LEFT));
         panel.add(new JLabel("Price: " + ski.getPrice() + " | ", SwingConstants.LEFT));
-        if(ski.getActualOwner() == null){
-            panel.add(new JLabel("Owner: " + ski.getActualOwner() + " | ", SwingConstants.LEFT));
+        if(ski.getUserID() == 0){
+            panel.add(new JLabel("Owner: none " + " | ", SwingConstants.LEFT));
         }else {
-            panel.add(new JLabel("Owner: " + ski.getActualOwner().getName() + " " + ski.getActualOwner().getSurname() +  " | ", SwingConstants.LEFT));
+            panel.add(new JLabel("Owner: " + userDao.getUserByID(ski.getUserID()).getName() + " " + userDao.getUserByID(ski.getUserID()).getSurname() +  " | ", SwingConstants.LEFT));
         }
 
 

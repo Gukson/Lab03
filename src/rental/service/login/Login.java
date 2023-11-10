@@ -40,7 +40,7 @@ public class Login {
     private User checkData(String nickname, char[] password){
         boolean nicknameExist = false;
         User user = null;
-        for(User u: userDao.getUsers()){
+        for(User u: userDao.getAll()){
             if(u.getNickname().equals(nickname)){
                 nicknameExist = true;
                 user = u;
