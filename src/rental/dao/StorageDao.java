@@ -116,7 +116,7 @@ public class StorageDao implements Dao<Ski>{
 
     public Ski removeReservation(Ski ski){
         try{
-            PreparedStatement stmt = connection.prepareStatement("UPDATE storage SET userID = (?) WHERE userID = (?)");
+            PreparedStatement stmt = connection.prepareStatement("UPDATE storage SET userID = (?) WHERE serialNumber = (?)");
             stmt.setQueryTimeout(5);
             stmt.setInt(1, 0);
             stmt.setString(2,ski.getSerialNumber());

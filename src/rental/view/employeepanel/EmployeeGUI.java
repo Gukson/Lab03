@@ -22,8 +22,10 @@ public class EmployeeGUI {
     private JScrollPane scrollPane;
     private Reserve reserve;
     private ReservedPanel reservedPanel;
+    private RentedPanel rentedPanel;
     public EmployeeGUI(User loggedUser, StorageDao storageDao, UserDao userDao){
         reservedPanel = new ReservedPanel();
+        rentedPanel = new RentedPanel();
         this.reserve = reserve;
         this.contentPane = new JPanel();
         this.contentPane.setBackground(Color.LIGHT_GRAY);
@@ -90,7 +92,7 @@ public class EmployeeGUI {
                 pageTitle.setText("Rented Skis");
                 for(Ski s : storageDao.getAll()){
                     if(Objects.equals(s.getStatus(), "Rented")){
-//                        generateReservedPanel(s, userDao);
+                        rentedPanel.generaterentedPanel(s, userDao, storageDao,loggedUser,EmployeeGUI.this,rowHolderPanel);
                     }
                 }
 
