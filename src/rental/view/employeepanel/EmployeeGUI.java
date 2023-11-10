@@ -1,10 +1,10 @@
-package rental.view.managerpanel;
+package rental.view.employeepanel;
 
 import rental.dao.StorageDao;
 import rental.dao.UserDao;
 import rental.data.Ski;
 import rental.data.User;
-import rental.service.addnewski.AddNewSki;
+import rental.service.reservation.Reserve;
 import rental.view.CoreUI;
 
 import javax.swing.*;
@@ -12,17 +12,19 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
+import java.util.Objects;
 
-public class StorageManagerGUI {
-    private static final long serialVersionUID = 1L;
+public class EmployeeGUI {
     private JPanel contentPane, navBar, navigation, dataSection, outerPanel;
     private JPanel rowHolderPanel = new JPanel(new GridLayout(0, 1, 1, 1));
-    private JLabel NameSurname, role, logo, pageTitle;
-    private JButton storage, usersDb, logOutButton, addNewSkiButton;
+    private JLabel NameSurname, role, logo, pageTitle, messageLabel;
+    private JButton ofert, myReservation, logOutButton;
     private JScrollPane scrollPane;
-
-    public StorageManagerGUI(User loggedUser, StorageDao storageDao, AddNewSki addNewSki, UserDao userDao){
+    private Reserve reserve;
+    private ReservedPanel reservedPanel;
+    public EmployeeGUI(User loggedUser, StorageDao storageDao, UserDao userDao){
+        reservedPanel = new ReservedPanel();
+        this.reserve = reserve;
         this.contentPane = new JPanel();
         this.contentPane.setBackground(Color.LIGHT_GRAY);
         this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -61,27 +63,40 @@ public class StorageManagerGUI {
         this.contentPane.add(this.navigation);
         this.navigation.setLayout(null);
 
-        this.storage = new JButton("Storage");
-        this.storage.setBounds(28, 64, 91, 29);
-        this.storage.addActionListener(new ActionListener() {
+        this.ofert = new JButton("Reservations");
+        this.ofert.setBounds(28, 64, 120, 29);
+        this.ofert.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(StorageManagerGUI.this.contentPane);
-                coreui.toggleStorageManager(loggedUser);
-            }
-        });
-        this.navigation.add(storage);
+                rowHolderPanel.removeAll();
+                pageTitle.setText("Reservations");
+                for(Ski s : storageDao.getAll()){
+                    if(Objects.equals(s.getStatus(), "Reserved")){
+                        reservedPanel.generateReservedPanel(s, userDao, storageDao,loggedUser,EmployeeGUI.this,rowHolderPanel);
+                    }
+                }
 
-        this.usersDb = new JButton("users DB");
-        this.usersDb.setBounds(23, 23, 100, 29);
-        this.usersDb.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(StorageManagerGUI.this.contentPane);
-                coreui.toggleUserManager(loggedUser);
+
             }
         });
-        this.navigation.add(this.usersDb);
+        this.navigation.add(ofert);
+
+        this.myReservation = new JButton("Rented");
+        this.myReservation.setBounds(13, 23, 91, 29);
+        this.myReservation.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                rowHolderPanel.removeAll();
+                pageTitle.setText("Rented Skis");
+                for(Ski s : storageDao.getAll()){
+                    if(Objects.equals(s.getStatus(), "Rented")){
+//                        generateReservedPanel(s, userDao);
+                    }
+                }
+
+            }
+        });
+        this.navigation.add(this.myReservation);
 
         this.logOutButton = new JButton();
         this.logOutButton.setBounds(112, 342, 32, 28);
@@ -91,34 +106,20 @@ public class StorageManagerGUI {
         this.logOutButton.setBorderPainted(false);
         this.logOutButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(StorageManagerGUI.this.contentPane);
+                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(EmployeeGUI.this.contentPane);
                 coreui.toggleLogin();
             }
         });
         this.navigation.add(this.logOutButton);
 
-        this.addNewSkiButton = new JButton();
-        this.addNewSkiButton.setBounds(112, 300, 32, 28);
-        this.addNewSkiButton.setIcon(new ImageIcon("./images/more.png"));
-        this.addNewSkiButton.setOpaque(false);
-        this.addNewSkiButton.setContentAreaFilled(false);
-        this.addNewSkiButton.setBorderPainted(false);
-        this.addNewSkiButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(StorageManagerGUI.this.contentPane);
-                AddNewSkisGUI frame = new AddNewSkisGUI(addNewSki,coreui,loggedUser);
-                frame.setLocation(contentPane.getLocationOnScreen());
-                frame.setVisible(true);
-            }
-        });
-
-        this.navigation.add(addNewSkiButton);
-
-
-        this.pageTitle = new JLabel("Storage");
-        this.pageTitle.setBounds(414, 61, 61, 16);
+        this.pageTitle = new JLabel("Reservations");
+        this.pageTitle.setBounds(396, 54, 100, 16);
         this.contentPane.add(this.pageTitle);
+
+        this.messageLabel = new JLabel();
+        this.messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        this.messageLabel.setBounds(162, 70, 533, 16);
+        this.contentPane.add(this.messageLabel);
 
         this.dataSection = new JPanel();
         this.dataSection.setBorder(null);
@@ -133,42 +134,21 @@ public class StorageManagerGUI {
 
         this.dataSection.setLayout(new BorderLayout());
         this.dataSection.add(scrollPane, BorderLayout.CENTER);
-        
+
         for(Ski s : storageDao.getAll()){
-            generateSkiPanels(s,userDao);
+            if(Objects.equals(s.getStatus(), "Reserved")){
+                reservedPanel.generateReservedPanel(s, userDao, storageDao,loggedUser,EmployeeGUI.this,rowHolderPanel);
+            }
         }
     }
 
-    private void setContentPane(JPanel contentPane) {
-    }
 
-
-    private void generateSkiPanels(Ski ski, UserDao userDao){
-        JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        panel.add(new JLabel("S/N: " + ski.getSerialNumber() + " | ", SwingConstants.LEFT));
-        panel.add(new JLabel("l: " + ski.getLength() + "cm | ", SwingConstants.LEFT));
-        panel.add(new JLabel("Model: " + ski.getModel() + " | ", SwingConstants.LEFT));
-        panel.add(new JLabel("Price: " + ski.getPrice() + " | ", SwingConstants.LEFT));
-        if(ski.getUserID() == 0){
-            panel.add(new JLabel("Owner: none " + " | ", SwingConstants.LEFT));
-        }else {
-            panel.add(new JLabel("Owner: " + userDao.getUserByID(ski.getUserID()).getName() + " " + userDao.getUserByID(ski.getUserID()).getSurname() +  " | ", SwingConstants.LEFT));
-        }
-
-
-        //z tego będzie przycisk "usuń"
-        //trzba sprawdzać czy można usunąć te narty
-        //panel.add(new JButton("Delete"));
-
-        panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
-
-        rowHolderPanel.add(panel);
-        rowHolderPanel.revalidate();
-        rowHolderPanel.repaint();
-    }
 
     public JPanel getContentPane() {
         return contentPane;
+    }
+
+    public void setContentPane(JPanel contentPane) {
+        this.contentPane = contentPane;
     }
 }

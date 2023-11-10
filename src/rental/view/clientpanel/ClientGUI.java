@@ -73,7 +73,7 @@ public class ClientGUI {
                 pageTitle.setText("Ofert");
                 for(Ski s : storageDao.getAll()){
                     if(s.getUserID() == 0){
-                        generateSkiPanels(s, loggedUser, messageLabel, storageDao);
+                        generateSkiPanels(s, loggedUser, messageLabel, storageDao,true);
                     }
                 }
 
@@ -91,7 +91,7 @@ public class ClientGUI {
                 pageTitle.setText("My Reservation");
                 for(Ski s : storageDao.getAll()){
                     if(Objects.equals(s.getUserID(), loggedUser.getId())){
-                        generateSkiPanels(s, loggedUser, messageLabel, storageDao);
+                        generateSkiPanels(s, loggedUser, messageLabel, storageDao,false);
                     }
                 }
 
@@ -138,12 +138,12 @@ public class ClientGUI {
 
         for(Ski s : storageDao.getAll()){
             if(s.getUserID() == 0){
-                generateSkiPanels(s, loggedUser, this.messageLabel,storageDao);
+                generateSkiPanels(s, loggedUser, this.messageLabel,storageDao,true);
             }
         }
 
     }
-    private void generateSkiPanels(Ski ski, User loggedUser, JLabel messageLabel, StorageDao storageDao){
+    private void generateSkiPanels(Ski ski, User loggedUser, JLabel messageLabel, StorageDao storageDao, boolean reserve){
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout(FlowLayout.CENTER));
         panel.add(new JLabel("S/N: " + ski.getSerialNumber() + " | ", SwingConstants.LEFT));
@@ -152,17 +152,19 @@ public class ClientGUI {
         panel.add(new JLabel("Price: " + ski.getPrice() + " | ", SwingConstants.LEFT));
 
         JButton reserveBT = new JButton("Reserve");
-        panel.add(reserveBT);
+        if(reserve){
+            panel.add(reserveBT);
+        }
         reserveBT.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try{
+                    System.out.println(ski.getStatus());
                     ClientGUI.this.reserve.reservation(ski,storageDao, loggedUser);
-                    System.out.println("Siema");
                     panel.remove(reserveBT);
                     CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(ClientGUI.this.contentPane);
                     coreui.toggleClientOfert(loggedUser);
-////                    messageLabel.setText("Succesfully reserved");
+//                    messageLabel.setText("Succesfully reserved");
 //                    messageLabel.setForeground(Color.GREEN);
                 }catch (CreationException e2){
                     messageLabel.setText("Reservation error");

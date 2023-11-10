@@ -1,6 +1,8 @@
 package rental.view.managerpanel;
 
+import rental.dao.StorageDao;
 import rental.dao.UserDao;
+import rental.data.Ski;
 import rental.data.User;
 import rental.view.CoreUI;
 
@@ -21,7 +23,7 @@ public class UserManagerGUI extends JFrame {
     private JButton storage, usersDb, logOutButton;
     private JPanel rowHolderPanel = new JPanel(new GridLayout(0, 1, 1, 1));
 
-    public UserManagerGUI(UserDao userDao, User user) {
+    public UserManagerGUI(UserDao userDao, User user, StorageDao storageDao) {
 
         this.contentPane = new JPanel();
         this.contentPane.setBackground(Color.LIGHT_GRAY);
@@ -118,7 +120,7 @@ public class UserManagerGUI extends JFrame {
 
 
         for(User u : userDao.getAll()){
-            gereratePanels(u, user, userDao);
+            gereratePanels(u, user, userDao, storageDao);
         }
 
     }
@@ -128,7 +130,7 @@ public class UserManagerGUI extends JFrame {
         return contentPane;
     }
 
-    private void gereratePanels(User user, User loggedUser, UserDao userDao){
+    private void gereratePanels(User user, User loggedUser, UserDao userDao, StorageDao storageDao){
         JPanel panel = new JPanel();
         panel.setBounds(0,0,600,94);
         panel.setPreferredSize(new Dimension(600,94));
@@ -140,7 +142,7 @@ public class UserManagerGUI extends JFrame {
         setClientRoleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                userDao.update(user,new String[]{"Role", "Accepted"});
+                userDao.update(user,new String[]{"Role", "Client"});
                 CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(UserManagerGUI.this.contentPane);
                 coreui.toggleUserManager(loggedUser);
             }
@@ -152,7 +154,7 @@ public class UserManagerGUI extends JFrame {
         setEmployeeRoleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                userDao.update(user,new String[]{"Role", "Accepted"});
+                userDao.update(user,new String[]{"Role", "Employee"});
                 CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(UserManagerGUI.this.contentPane);
                 coreui.toggleUserManager(loggedUser);
             }
@@ -164,7 +166,7 @@ public class UserManagerGUI extends JFrame {
         setManagerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                userDao.update(user,new String[]{"Role", "Accepted"});
+                userDao.update(user,new String[]{"Role", "Manager"});
                 CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(UserManagerGUI.this.contentPane);
                 coreui.toggleUserManager(loggedUser);
             }
@@ -203,6 +205,10 @@ public class UserManagerGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(!user.equals(loggedUser)){
+                    for(Ski s: storageDao.getAll()){
+                        storageDao.update(s,new String[]{"Status", "Free"});
+                        storageDao.removeReservation(s);
+                    }
                     userDao.delete(user);
                     panel.remove(deleteUserButton);
                     CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(UserManagerGUI.this.contentPane);

@@ -6,20 +6,26 @@ public class Ski {
     private String serialNumber;
     private Integer userID;
     private Integer price;
+    private String status;
+    private Integer isPaid;
 
     public Ski(String model, Integer length, String serialNumber, Integer price) {
         this.model = model;
         this.length = length;
         this.serialNumber = serialNumber;
-        this.userID = null;
+        this.userID = 0;
         this.price = price;
+        this.status = "Free";
+        this.isPaid = 0;
     }
-    public Ski(String model, Integer length, String serialNumber, Integer price, Integer userId) {
+    public Ski(String model, Integer length, String serialNumber, Integer price, Integer userId, String status, Integer isPaid) {
         this.model = model;
         this.length = length;
         this.serialNumber = serialNumber;
         this.userID = userId;
         this.price = price;
+        this.status = status;
+        this.isPaid = isPaid;
     }
 
     public String getModel() {
@@ -30,32 +36,23 @@ public class Ski {
         return length;
     }
 
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public void setLength(Integer length) {
-        this.length = length;
-    }
-
     public String getSerialNumber() {
         return serialNumber;
-    }
-
-    public void setSerialNumber(String serialNumber) {
-        this.serialNumber = serialNumber;
     }
 
     public Integer getUserID() {
         return userID;
     }
 
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
-
-
     public Integer getPrice() {
         return price;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public Integer isPaid() {
+        return isPaid;
     }
 }

@@ -30,6 +30,7 @@ public class UserDao implements Dao<User>{
     public List<User> getAll() {
         try{
             Statement stmt = connection.createStatement();
+            stmt.setQueryTimeout(5);
             ResultSet usersSet = stmt.executeQuery("SELECT * FROM users");
             users.clear();
             while (usersSet.next()){
@@ -46,6 +47,7 @@ public class UserDao implements Dao<User>{
     public User create(User user) {
         try{
             PreparedStatement stmt = connection.prepareStatement("INSERT INTO users (Name,Surname,Status,Role,Password,Nickname) VALUES (?,?,?,?,?,?)");
+            stmt.setQueryTimeout(5);
             stmt.setString(1,user.getName());
             stmt.setString(2,user.getSurname());
             stmt.setString(3,user.getStatus());
@@ -67,10 +69,15 @@ public class UserDao implements Dao<User>{
             PreparedStatement stmt;
             if(Objects.equals(params[0], "Status")){
                 stmt = connection.prepareStatement("UPDATE users SET Status = (?) WHERE Nickname = (?)");
+                stmt.setQueryTimeout(5);
                 stmt.setString(1,params[1]);
                 stmt.setString(2,user.getNickname());
             }else{
                 stmt = connection.prepareStatement("UPDATE users SET Role = (?) WHERE Nickname = (?)");
+                stmt.setQueryTimeout(5);
+                stmt.setString(1,params[1]);
+                stmt.setString(2,user.getNickname());
+
             }
 
             //stmt.setString(1,params[0]);
@@ -87,6 +94,7 @@ public class UserDao implements Dao<User>{
     public User delete(User user) {
         try{
             PreparedStatement stmt = connection.prepareStatement("DELETE FROM users WHERE Nickname = (?)");
+            stmt.setQueryTimeout(5);
             stmt.setString(1,user.getNickname());
             stmt.executeUpdate();
 
@@ -99,7 +107,9 @@ public class UserDao implements Dao<User>{
     public User getUserByID(Integer id){
         User user = null;
         try{
+            System.out.println(id);
             PreparedStatement stmt = connection.prepareStatement("SELECT * FROM users WHERE id = (?)");
+            stmt.setQueryTimeout(5);
             stmt.setInt(1,id);
             ResultSet usersSet = stmt.executeQuery();
             user = new User(usersSet.getString("Name"),usersSet.getString("Surname"),usersSet.getString("Nickname"), usersSet.getString("Password").toCharArray(), usersSet.getString("Status"),usersSet.getString("Role"), usersSet.getInt("id"));

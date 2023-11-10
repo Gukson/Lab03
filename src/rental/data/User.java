@@ -10,7 +10,6 @@ public class User {
     private String status;
     private String role;
     private String nickname;
-    private List<Reservation> reservations;
     private Integer id;
 
 
@@ -21,7 +20,6 @@ public class User {
         this.role = "Client";
         this.nickname = nickname;
         this.password = password;
-        this.reservations = new ArrayList<>();
     }
 
     public User(String name, String surname, String nickname, char[] password, String status, String role, Integer id) {
@@ -31,7 +29,6 @@ public class User {
         this.role = role;
         this.nickname = nickname;
         this.password = password;
-        this.reservations = new ArrayList<>();
         this.id = id;
     }
 
@@ -61,10 +58,6 @@ public class User {
 
     public Integer getId() {
         return id;
-    }
-
-    public List<Reservation> getReservations() {
-        return reservations;
     }
 
 }

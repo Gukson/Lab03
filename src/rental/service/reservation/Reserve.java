@@ -2,7 +2,6 @@ package rental.service.reservation;
 
 import rental.dao.StorageDao;
 import rental.exceptions.CreationException;
-import rental.data.Reservation;
 import rental.data.Ski;
 import rental.data.User;
 
@@ -13,5 +12,6 @@ public class Reserve {
             throw new CreationException();
         }
         storageDao.updateID(ski,user.getId());
+        storageDao.update(ski,new String[]{"Status", "Reserved"});
     }
 }
