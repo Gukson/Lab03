@@ -21,8 +21,10 @@ public class StorageManagerGUI {
     private JLabel NameSurname, role, logo, pageTitle;
     private JButton storage, usersDb, logOutButton, addNewSkiButton;
     private JScrollPane scrollPane;
+    private ManagerStoragePanel managerStoragePanel;
 
     public StorageManagerGUI(User loggedUser, StorageDao storageDao, AddNewSki addNewSki, UserDao userDao){
+        this.managerStoragePanel = new ManagerStoragePanel();
         this.contentPane = new JPanel();
         this.contentPane.setBackground(Color.LIGHT_GRAY);
         this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -135,37 +137,11 @@ public class StorageManagerGUI {
         this.dataSection.add(scrollPane, BorderLayout.CENTER);
         
         for(Ski s : storageDao.getAll()){
-            generateSkiPanels(s,userDao);
+            managerStoragePanel.StoragePanel(s, userDao, storageDao, loggedUser, StorageManagerGUI.this, rowHolderPanel);
         }
     }
 
     private void setContentPane(JPanel contentPane) {
-    }
-
-
-    private void generateSkiPanels(Ski ski, UserDao userDao){
-        JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        panel.add(new JLabel("S/N: " + ski.getSerialNumber() + " | ", SwingConstants.LEFT));
-        panel.add(new JLabel("l: " + ski.getLength() + "cm | ", SwingConstants.LEFT));
-        panel.add(new JLabel("Model: " + ski.getModel() + " | ", SwingConstants.LEFT));
-        panel.add(new JLabel("Price: " + ski.getPrice() + " | ", SwingConstants.LEFT));
-        if(ski.getUserID() == 0){
-            panel.add(new JLabel("Owner: none " + " | ", SwingConstants.LEFT));
-        }else {
-            panel.add(new JLabel("Owner: " + userDao.getUserByID(ski.getUserID()).getName() + " " + userDao.getUserByID(ski.getUserID()).getSurname() +  " | ", SwingConstants.LEFT));
-        }
-
-
-        //z tego będzie przycisk "usuń"
-        //trzba sprawdzać czy można usunąć te narty
-        //panel.add(new JButton("Delete"));
-
-        panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
-
-        rowHolderPanel.add(panel);
-        rowHolderPanel.revalidate();
-        rowHolderPanel.repaint();
     }
 
     public JPanel getContentPane() {
