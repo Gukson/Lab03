@@ -9,7 +9,8 @@ import rental.service.registration.Registration;
 import rental.view.clientpanel.ClientOffertGUI;
 import rental.service.reservation.Reserve;
 import rental.view.clientpanel.ClientReservationsGUI;
-import rental.view.employeepanel.EmployeeGUI;
+import rental.view.employeepanel.EmployeeReservedGUI;
+import rental.view.employeepanel.EmployeeRentedGUi;
 import rental.view.managerpanel.StorageManagerGUI;
 import rental.view.managerpanel.UserManagerGUI;
 
@@ -61,8 +62,8 @@ public class CoreUI extends JFrame {
         this.replaceView(this.jpanel);
     }
 
-    public void toggleEmployee(User user) {
-        EmployeeGUI gui = new EmployeeGUI(user, storageDao, userDao);
+    public void toggleEmployeeReserved(User user) {
+        EmployeeReservedGUI gui = new EmployeeReservedGUI(user, storageDao, userDao);
         this.jpanel = gui.getContentPane();
         this.replaceView(this.jpanel);
     }
@@ -75,6 +76,12 @@ public class CoreUI extends JFrame {
 
     public void toggleClientReservations(User user){
         ClientReservationsGUI gui = new ClientReservationsGUI(user,storageDao,new Reserve());
+        this.jpanel = gui.getContentPane();
+        this.replaceView(this.jpanel);
+    }
+
+    public void toggleEmployeeRentedGUI(User user){
+        EmployeeRentedGUi gui = new EmployeeRentedGUi(user,storageDao,userDao);
         this.jpanel = gui.getContentPane();
         this.replaceView(this.jpanel);
     }

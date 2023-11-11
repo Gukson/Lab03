@@ -12,7 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ReservedPanel {
-    public void generateReservedPanel(Ski ski, UserDao userDao, StorageDao storageDao, User loggedUser, EmployeeGUI employeeGUI, JPanel rowHolderPanel){
+    public void generateReservedPanel(Ski ski, UserDao userDao, StorageDao storageDao, User loggedUser, EmployeeReservedGUI employeeGUI, JPanel rowHolderPanel){
         JPanel panel = new JPanel();
         panel.setBounds(0,0,600,94);
         panel.setPreferredSize(new Dimension(600,94));
@@ -40,7 +40,7 @@ public class ReservedPanel {
             public void actionPerformed(ActionEvent e) {
                 storageDao.update(ski,new String[]{"isPaid", "1"});
                 CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(employeeGUI.getContentPane());
-                coreui.toggleEmployee(loggedUser);
+                coreui.toggleEmployeeReserved(loggedUser);
             }
         });
         panel.add(payButton);
@@ -54,7 +54,7 @@ public class ReservedPanel {
                 storageDao.update(ski,new String[]{"Status", "Free"});
                 storageDao.update(ski,new String[]{"isPaid", "0"});
                 CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(employeeGUI.getContentPane());
-                coreui.toggleEmployee(loggedUser);
+                coreui.toggleEmployeeReserved(loggedUser);
             }
         });
         panel.add(cancelButton);
@@ -98,7 +98,7 @@ public class ReservedPanel {
             public void actionPerformed(ActionEvent e) {
                 storageDao.update(ski,new String[]{"Status", "Rented"});
                 CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(employeeGUI.getContentPane());
-                coreui.toggleEmployee(loggedUser);
+                coreui.toggleEmployeeReserved(loggedUser);
             }
         });
         panel.add(rentButton);

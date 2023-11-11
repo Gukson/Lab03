@@ -116,7 +116,7 @@ public class LoginGUI {
                                 coreui.toggleClientOfert(user);
                         case "Employee" ->
                             //go to employee panel
-                                coreui.toggleEmployee(user);
+                                coreui.toggleEmployeeReserved(user);
                         case "Manager" -> {
                             coreui.toggleUserManager(user);
                         }

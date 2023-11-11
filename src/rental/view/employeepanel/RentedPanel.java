@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
 
 public class RentedPanel {
 
-    public void generaterentedPanel(Ski ski, UserDao userDao, StorageDao storageDao, User loggedUser, EmployeeGUI employeeGUI, JPanel rowHolderPanel){
+    public void generaterentedPanel(Ski ski, UserDao userDao, StorageDao storageDao, User loggedUser, EmployeeRentedGUi employeeGUI, JPanel rowHolderPanel){
         JPanel panel = new JPanel();
         panel.setBounds(0,0,600,94);
         panel.setPreferredSize(new Dimension(600,94));
@@ -41,7 +41,7 @@ public class RentedPanel {
             public void actionPerformed(ActionEvent e) {
                 storageDao.update(ski,new String[]{"isPaid", "1"});
                 CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(employeeGUI.getContentPane());
-                coreui.toggleEmployee(loggedUser);
+                coreui.toggleEmployeeRentedGUI(loggedUser);
             }
         });
         panel.add(payButton);
@@ -92,7 +92,7 @@ public class RentedPanel {
                     storageDao.update(ski,new String[]{"Status", "Free"});
                     storageDao.update(ski,new String[]{"isPaid", "0"});
                     CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(employeeGUI.getContentPane());
-                    coreui.toggleEmployee(loggedUser);
+                    coreui.toggleEmployeeRentedGUI(loggedUser);
                 }
                 else {
                     notPaidLabel.setText("Skis not pays!");

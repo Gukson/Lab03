@@ -4,7 +4,6 @@ import rental.dao.StorageDao;
 import rental.dao.UserDao;
 import rental.data.Ski;
 import rental.data.User;
-import rental.service.reservation.Reserve;
 import rental.view.CoreUI;
 
 import javax.swing.*;
@@ -14,19 +13,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Objects;
 
-public class EmployeeGUI {
+public class EmployeeReservedGUI {
     private JPanel contentPane, navBar, navigation, dataSection, outerPanel;
     private JPanel rowHolderPanel = new JPanel(new GridLayout(0, 1, 1, 1));
     private JLabel NameSurname, role, logo, pageTitle, messageLabel;
     private JButton ofert, myReservation, logOutButton;
     private JScrollPane scrollPane;
-    private Reserve reserve;
     private ReservedPanel reservedPanel;
     private RentedPanel rentedPanel;
-    public EmployeeGUI(User loggedUser, StorageDao storageDao, UserDao userDao){
+    public EmployeeReservedGUI(User loggedUser, StorageDao storageDao, UserDao userDao){
         reservedPanel = new ReservedPanel();
         rentedPanel = new RentedPanel();
-        this.reserve = reserve;
         this.contentPane = new JPanel();
         this.contentPane.setBackground(Color.LIGHT_GRAY);
         this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -66,36 +63,23 @@ public class EmployeeGUI {
         this.navigation.setLayout(null);
 
         this.ofert = new JButton("Reservations");
-        this.ofert.setBounds(28, 64, 120, 29);
+        this.ofert.setBounds(15, 64, 120, 29);
         this.ofert.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                rowHolderPanel.removeAll();
-                pageTitle.setText("Reservations");
-                for(Ski s : storageDao.getAll()){
-                    if(Objects.equals(s.getStatus(), "Reserved")){
-                        reservedPanel.generateReservedPanel(s, userDao, storageDao,loggedUser,EmployeeGUI.this,rowHolderPanel);
-                    }
-                }
-
-
+                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(EmployeeReservedGUI.this.contentPane);
+                coreui.toggleEmployeeReserved(loggedUser);
             }
         });
         this.navigation.add(ofert);
 
         this.myReservation = new JButton("Rented");
-        this.myReservation.setBounds(13, 23, 91, 29);
+        this.myReservation.setBounds(30, 23, 90, 29);
         this.myReservation.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                rowHolderPanel.removeAll();
-                pageTitle.setText("Rented Skis");
-                for(Ski s : storageDao.getAll()){
-                    if(Objects.equals(s.getStatus(), "Rented")){
-                        rentedPanel.generaterentedPanel(s, userDao, storageDao,loggedUser,EmployeeGUI.this,rowHolderPanel);
-                    }
-                }
-
+                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(EmployeeReservedGUI.this.contentPane);
+                coreui.toggleEmployeeRentedGUI(loggedUser);
             }
         });
         this.navigation.add(this.myReservation);
@@ -108,7 +92,7 @@ public class EmployeeGUI {
         this.logOutButton.setBorderPainted(false);
         this.logOutButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(EmployeeGUI.this.contentPane);
+                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(EmployeeReservedGUI.this.contentPane);
                 coreui.toggleLogin();
             }
         });
@@ -139,12 +123,10 @@ public class EmployeeGUI {
 
         for(Ski s : storageDao.getAll()){
             if(Objects.equals(s.getStatus(), "Reserved")){
-                reservedPanel.generateReservedPanel(s, userDao, storageDao,loggedUser,EmployeeGUI.this,rowHolderPanel);
+                reservedPanel.generateReservedPanel(s, userDao, storageDao,loggedUser, EmployeeReservedGUI.this,rowHolderPanel);
             }
         }
     }
-
-
 
     public JPanel getContentPane() {
         return contentPane;
