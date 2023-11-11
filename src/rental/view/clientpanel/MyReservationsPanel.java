@@ -25,13 +25,18 @@ public class MyReservationsPanel {
 
         JLabel modelLabel = new JLabel("Model: " + ski.getModel());
         modelLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        modelLabel.setBounds(262, 34, 150, 16);
+        modelLabel.setBounds(262, 29, 150, 16);
         panel.add(modelLabel);
 
-        JLabel lengthLabel = new JLabel("length: " +ski.getLength() + " cm");
+        JLabel lengthLabel = new JLabel("Length: " +ski.getLength() + " cm");
         lengthLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        lengthLabel.setBounds(262, 62, 150, 16);
+        lengthLabel.setBounds(262, 50, 150, 16);
         panel.add(lengthLabel);
+
+        JLabel priceLabel = new JLabel("Price: " + ski.getPrice() + "zł");
+        priceLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        priceLabel.setBounds(262, 70, 150, 16);
+        panel.add(priceLabel);
 
         JButton payButton = new JButton("Pay");
         payButton.setBounds(452, 29, 67, 29);
