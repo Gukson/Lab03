@@ -1,13 +1,10 @@
 package rental.view.clientpanel;
 
 import rental.dao.StorageDao;
-import rental.dao.UserDao;
-import rental.exceptions.CreationException;
 import rental.data.Ski;
 import rental.data.User;
 import rental.service.reservation.Reserve;
 import rental.view.CoreUI;
-import rental.view.employeepanel.EmployeeGUI;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -16,7 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Objects;
 
-public class ClientGUI {
+public class ClientReservationsGUI {
     private JPanel contentPane, navBar, navigation, dataSection, outerPanel;
     private JPanel rowHolderPanel = new JPanel(new GridLayout(0, 1, 1, 1));
     private JLabel NameSurname, role, logo, pageTitle, messageLabel;
@@ -24,8 +21,7 @@ public class ClientGUI {
     private JScrollPane scrollPane;
     private MyReservationsPanel myReservationsPanel;
     private OffertPanel offertPanel;
-
-    public ClientGUI(User loggedUser, StorageDao storageDao, Reserve reserve, UserDao userDao) {
+    public ClientReservationsGUI(User loggedUser, StorageDao storageDao, Reserve reserve){
         myReservationsPanel = new MyReservationsPanel();
         offertPanel = new OffertPanel();
         this.contentPane = new JPanel();
@@ -71,15 +67,8 @@ public class ClientGUI {
         this.ofert.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                rowHolderPanel.removeAll();
-                pageTitle.setText("Ofert");
-                for (Ski s : storageDao.getAll()) {
-                    if (s.getUserID() == 0) {
-                        offertPanel.offerPanel(s,storageDao,loggedUser,ClientGUI.this,rowHolderPanel,reserve);
-                    }
-                }
-
-
+                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(ClientReservationsGUI.this.contentPane);
+                coreui.toggleClientOfert(loggedUser);
             }
         });
         this.navigation.add(ofert);
@@ -89,14 +78,8 @@ public class ClientGUI {
         this.myReservation.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                rowHolderPanel.removeAll();
-                pageTitle.setText("My Reservation");
-                for (Ski s : storageDao.getAll()) {
-                    if (Objects.equals(s.getUserID(), loggedUser.getId())) {
-                        myReservationsPanel.MyReservationsPanel(s, storageDao, loggedUser, ClientGUI.this,rowHolderPanel);
-                    }
-                }
-
+                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(ClientReservationsGUI.this.contentPane);
+                coreui.toggleClientReservations(loggedUser);
             }
         });
         this.navigation.add(this.myReservation);
@@ -109,7 +92,7 @@ public class ClientGUI {
         this.logOutButton.setBorderPainted(false);
         this.logOutButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(ClientGUI.this.contentPane);
+                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(ClientReservationsGUI.this.contentPane);
                 coreui.toggleLogin();
             }
         });
@@ -139,11 +122,10 @@ public class ClientGUI {
         this.dataSection.add(scrollPane, BorderLayout.CENTER);
 
         for (Ski s : storageDao.getAll()) {
-            if (s.getUserID() == 0) {
-                offertPanel.offerPanel(s,storageDao,loggedUser,ClientGUI.this,rowHolderPanel,reserve);
+            if (Objects.equals(s.getUserID(), loggedUser.getId())) {
+                myReservationsPanel.MyReservationsPanel(s, storageDao, loggedUser, ClientReservationsGUI.this,rowHolderPanel);
             }
         }
-
     }
 
     public JPanel getContentPane() {

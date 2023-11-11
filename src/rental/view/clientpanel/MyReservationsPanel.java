@@ -1,11 +1,9 @@
 package rental.view.clientpanel;
 
 import rental.dao.StorageDao;
-import rental.dao.UserDao;
 import rental.data.Ski;
 import rental.data.User;
 import rental.view.CoreUI;
-import rental.view.employeepanel.EmployeeGUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +12,7 @@ import java.awt.event.ActionListener;
 
 public class MyReservationsPanel {
 
-    public void MyReservationsPanel(Ski ski, StorageDao storageDao, User loggedUser, ClientGUI clientGUI, JPanel rowHolderPanel){
+    public void MyReservationsPanel(Ski ski, StorageDao storageDao, User loggedUser, ClientReservationsGUI clientGUI, JPanel rowHolderPanel){
         JPanel panel = new JPanel();
         panel.setBounds(0,0,600,94);
         panel.setPreferredSize(new Dimension(600,94));
@@ -42,7 +40,7 @@ public class MyReservationsPanel {
             public void actionPerformed(ActionEvent e) {
                 storageDao.update(ski,new String[]{"isPaid", "1"});
                 CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(clientGUI.getContentPane());
-                coreui.toggleClientOfert(loggedUser);
+                coreui.toggleClientReservations(loggedUser);
             }
         });
         if(ski.isPaid() == 0){
@@ -58,7 +56,7 @@ public class MyReservationsPanel {
                 storageDao.update(ski,new String[]{"Status", "Free"});
                 storageDao.update(ski,new String[]{"isPaid", "0"});
                 CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(clientGUI.getContentPane());
-                coreui.toggleClientOfert(loggedUser);
+                coreui.toggleClientReservations(loggedUser);
             }
         });
         panel.add(cancelButton);

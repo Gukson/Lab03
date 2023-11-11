@@ -6,8 +6,9 @@ import rental.data.User;
 import rental.service.addnewski.AddNewSki;
 import rental.service.login.Login;
 import rental.service.registration.Registration;
-import rental.view.clientpanel.ClientGUI;
+import rental.view.clientpanel.ClientOffertGUI;
 import rental.service.reservation.Reserve;
+import rental.view.clientpanel.ClientReservationsGUI;
 import rental.view.employeepanel.EmployeeGUI;
 import rental.view.managerpanel.StorageManagerGUI;
 import rental.view.managerpanel.UserManagerGUI;
@@ -67,7 +68,13 @@ public class CoreUI extends JFrame {
     }
 
     public void toggleClientOfert(User user) {
-        ClientGUI gui = new ClientGUI(user,storageDao, new Reserve(), userDao);
+        ClientOffertGUI gui = new ClientOffertGUI(user,storageDao, new Reserve());
+        this.jpanel = gui.getContentPane();
+        this.replaceView(this.jpanel);
+    }
+
+    public void toggleClientReservations(User user){
+        ClientReservationsGUI gui = new ClientReservationsGUI(user,storageDao,new Reserve());
         this.jpanel = gui.getContentPane();
         this.replaceView(this.jpanel);
     }

@@ -1,13 +1,11 @@
 package rental.view.clientpanel;
 
 import rental.dao.StorageDao;
-import rental.dao.UserDao;
 import rental.data.Ski;
 import rental.data.User;
 import rental.exceptions.CreationException;
 import rental.service.reservation.Reserve;
 import rental.view.CoreUI;
-import rental.view.employeepanel.EmployeeGUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class OffertPanel {
-    public void offerPanel(Ski ski, StorageDao storageDao, User loggedUser, ClientGUI clientGUI, JPanel rowHolderPanel, Reserve reserve){
+    public void offerPanel(Ski ski, StorageDao storageDao, User loggedUser, ClientOffertGUI clientGUI, JPanel rowHolderPanel, Reserve reserve){
         JPanel panel = new JPanel();
         panel.setBounds(0,0,600,94);
         panel.setPreferredSize(new Dimension(600,94));
@@ -45,7 +43,7 @@ public class OffertPanel {
                     reserve.reservation(ski,storageDao,loggedUser);
                     panel.remove(reserveButton);
                     CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(clientGUI.getContentPane());
-                    coreui.toggleClientOfert(loggedUser);
+                    coreui.toggleClientReservations(loggedUser);
                 }catch (CreationException e2){
                     //ewentualny error message na ekranie
                 }
