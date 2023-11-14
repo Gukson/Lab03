@@ -6,7 +6,6 @@ import rental.data.Ski;
 import rental.data.User;
 
 public class Reserve {
-
     public void reservation(Ski ski, StorageDao storageDao, User user){
         if(ski.getUserID() != 0){
             throw new CreationException();

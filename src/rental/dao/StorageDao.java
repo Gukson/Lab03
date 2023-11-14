@@ -114,16 +114,16 @@ public class StorageDao implements Dao<Ski>{
         return ski;
     }
 
-    public Ski removeReservation(Ski ski){
-        try{
-            PreparedStatement stmt = connection.prepareStatement("UPDATE storage SET userID = (?) WHERE serialNumber = (?)");
-            stmt.setQueryTimeout(5);
-            stmt.setInt(1, 0);
-            stmt.setString(2,ski.getSerialNumber());
-            stmt.executeUpdate();
-        }catch (SQLException e){
-            throw new RuntimeException(e);
-        }
-        return ski;
-    }
+//    public Ski removeReservation(Ski ski){
+//        try{
+//            PreparedStatement stmt = connection.prepareStatement("UPDATE storage SET userID = (?) WHERE serialNumber = (?)");
+//            stmt.setQueryTimeout(5);
+//            stmt.setInt(1, 0);
+//            stmt.setString(2,ski.getSerialNumber());
+//            stmt.executeUpdate();
+//        }catch (SQLException e){
+//            throw new RuntimeException(e);
+//        }
+//        return ski;
+//    }
 }

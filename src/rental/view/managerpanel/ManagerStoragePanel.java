@@ -44,7 +44,7 @@ public class ManagerStoragePanel {
         delete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                storageDao.removeReservation(ski);
+                storageDao.updateID(ski,0);
                 storageDao.delete(ski);
                 CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(managerStoragePanel.getContentPane());
                 coreui.toggleStorageManager(loggedUser);

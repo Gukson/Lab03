@@ -207,7 +207,7 @@ public class UserManagerGUI extends JFrame {
                 if(!user.equals(loggedUser)){
                     for(Ski s: storageDao.getAll()){
                         storageDao.update(s,new String[]{"Status", "Free"});
-                        storageDao.removeReservation(s);
+                        storageDao.updateID(s,0);
                     }
                     userDao.delete(user);
                     panel.remove(deleteUserButton);

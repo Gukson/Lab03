@@ -4,6 +4,7 @@ import rental.dao.StorageDao;
 import rental.data.Ski;
 import rental.data.User;
 import rental.exceptions.CreationException;
+import rental.exceptions.DataSynchronizationException;
 import rental.service.reservation.Reserve;
 import rental.view.CoreUI;
 
@@ -44,13 +45,19 @@ public class OffertPanel {
         reserveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(clientGUI.getContentPane());
+                IsItAvailable isItAvailable = new IsItAvailable();
                 try{
+                    isItAvailable.checkIsItAvailable(ski,storageDao);
                     reserve.reservation(ski,storageDao,loggedUser);
                     panel.remove(reserveButton);
-                    CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(clientGUI.getContentPane());
                     coreui.toggleClientReservations(loggedUser);
                 }catch (CreationException e2){
                     //ewentualny error message na ekranie
+                }
+                catch (DataSynchronizationException e3){
+                    System.out.println("te narty już są w użyciu");
+                    coreui.toggleClientOfert(loggedUser);
                 }
             }
         });

@@ -98,8 +98,8 @@ public class ClientReservationsGUI {
         });
         this.navigation.add(this.logOutButton);
 
-        this.pageTitle = new JLabel("Ofert");
-        this.pageTitle.setBounds(396, 54, 100, 16);
+        this.pageTitle = new JLabel("My Reservations");
+        this.pageTitle.setBounds(391, 54, 120, 16);
         this.contentPane.add(this.pageTitle);
 
         this.messageLabel = new JLabel();

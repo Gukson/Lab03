@@ -93,7 +93,7 @@ public class RentedPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(ski.isPaid() == 1){
-                    storageDao.removeReservation(ski);
+                    storageDao.updateID(ski,0);
                     storageDao.update(ski,new String[]{"Status", "Free"});
                     storageDao.update(ski,new String[]{"isPaid", "0"});
                     CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(employeeGUI.getContentPane());
