@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ValidationException extends RuntimeException{
-
     private List<String> fieldsWithIssues;
 
     public ValidationException(List<String> fieldsWithIssues) {

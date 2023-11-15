@@ -39,18 +39,6 @@ public class RentedPanel {
         priceLabel.setBounds(262, 70, 150, 16);
         panel.add(priceLabel);
 
-        JButton payButton = new JButton("Pay");
-        payButton.setBounds(452, 29, 67, 29);
-        payButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                storageDao.update(ski,new String[]{"isPaid", "1"});
-                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(employeeGUI.getContentPane());
-                coreui.toggleEmployeeRentedGUI(loggedUser);
-            }
-        });
-        panel.add(payButton);
-
         JLabel notPaidLabel = new JLabel();
         notPaidLabel.setBounds(452, 57, 142, 29);
         panel.add(notPaidLabel);

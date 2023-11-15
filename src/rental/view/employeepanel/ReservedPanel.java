@@ -38,18 +38,6 @@ public class ReservedPanel {
         priceLabel.setBounds(262, 70, 150, 16);
         panel.add(priceLabel);
 
-        JButton payButton = new JButton("Pay");
-        payButton.setBounds(452, 29, 67, 29);
-        payButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                storageDao.update(ski,new String[]{"isPaid", "1"});
-                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(employeeGUI.getContentPane());
-                coreui.toggleEmployeeReserved(loggedUser);
-            }
-        });
-        panel.add(payButton);
-
         JButton cancelButton = new JButton("cancel");
         cancelButton.setBounds(452, 57, 142, 29);
         cancelButton.addActionListener(new ActionListener() {
